@@ -1,0 +1,500 @@
+<title>月嫂面试评分表</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#eef1ea;
+  --paper:#ffffff;
+  --paper-2:#f7f8f3;
+  --ink:#20302b;
+  --ink-soft:#4a5952;
+  --line:#d3d9cd;
+  --accent:#2f6f5e;
+  --accent-soft:#e3ede8;
+  --good:#2f7a4f;
+  --good-bg:#e7f2e9;
+  --mid:#a8791f;
+  --mid-bg:#f6ecd9;
+  --poor:#b03a2e;
+  --poor-bg:#f7e5e2;
+  --stamp:#b5433a;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141c19;
+    --paper:#1b2521;
+    --paper-2:#202b26;
+    --ink:#e9efe9;
+    --ink-soft:#aab8b0;
+    --line:#33413b;
+    --accent:#6cbba3;
+    --accent-soft:#22332c;
+    --good:#6fc98d;
+    --good-bg:#1f3327;
+    --mid:#e0b25a;
+    --mid-bg:#332a17;
+    --poor:#e37e6e;
+    --poor-bg:#3a221e;
+    --stamp:#e37e6e;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141c19;
+  --paper:#1b2521;
+  --paper-2:#202b26;
+  --ink:#e9efe9;
+  --ink-soft:#aab8b0;
+  --line:#33413b;
+  --accent:#6cbba3;
+  --accent-soft:#22332c;
+  --good:#6fc98d;
+  --good-bg:#1f3327;
+  --mid:#e0b25a;
+  --mid-bg:#332a17;
+  --poor:#e37e6e;
+  --poor-bg:#3a221e;
+  --stamp:#e37e6e;
+}
+
+*{box-sizing:border-box;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Noto Sans SC","PingFang SC",-apple-system,sans-serif;
+  padding:0 16px;
+  font-variant-numeric:tabular-nums;
+}
+.sheet{
+  max-width:780px;
+  margin:0 auto;
+  padding-block:28px 60px;
+}
+h1,h2,h3{font-family:"Noto Serif SC","Songti SC",serif; text-wrap:balance; margin:0;}
+
+/* ---------- toolbar ---------- */
+.toolbar{
+  max-width:780px;
+  margin:0 auto;
+  display:flex; justify-content:flex-end;
+  padding-top:14px;
+}
+.print-btn{
+  font-family:"Noto Sans SC",sans-serif;
+  font-size:13px; font-weight:600;
+  color:var(--accent);
+  background:var(--accent-soft);
+  border:1px solid var(--line);
+  border-radius:7px;
+  padding:8px 14px;
+  cursor:pointer;
+}
+.print-btn:hover{filter:brightness(0.97);}
+
+/* ---------- masthead ---------- */
+.masthead{
+  border-bottom:3px solid var(--ink);
+  padding-bottom:18px;
+  margin-bottom:22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.masthead .eyebrow{
+  font-size:12px; letter-spacing:.14em; font-weight:700;
+  color:var(--accent); text-transform:uppercase;
+}
+.masthead h1{font-size:30px; font-weight:900; color:var(--ink); margin-top:4px;}
+.masthead .sub{font-size:13.5px; color:var(--ink-soft); margin-top:6px; max-width:46ch;}
+.masthead .badge{
+  font-family:"Noto Serif SC",serif;
+  font-weight:700; font-size:13px;
+  border:2px solid var(--stamp); color:var(--stamp);
+  border-radius:999px; padding:7px 16px;
+  transform:rotate(-3deg);
+  white-space:nowrap;
+}
+
+/* ---------- candidate info grid ---------- */
+.infogrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  border:1.5px solid var(--ink);
+  border-radius:10px;
+  overflow:hidden;
+  margin-bottom:26px;
+  background:var(--paper);
+}
+.infogrid .cell{
+  padding:10px 12px;
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.infogrid .cell:nth-child(4n){border-right:none;}
+.infogrid .cell.wide{grid-column:span 2;}
+.infogrid .cell label{
+  display:block; font-size:10.5px; color:var(--ink-soft);
+  letter-spacing:.06em; margin-bottom:10px;
+}
+.infogrid .fill{
+  border-bottom:1px dotted var(--ink-soft);
+  height:16px;
+}
+
+/* ---------- section label ---------- */
+.section-head{
+  display:flex; align-items:baseline; gap:10px;
+  margin:34px 0 12px;
+}
+.section-head .num{
+  font-family:"Noto Serif SC",serif; font-weight:900; font-size:15px;
+  color:var(--paper); background:var(--ink);
+  width:26px; height:26px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.section-head h2{font-size:16.5px; font-weight:700; color:var(--ink);}
+.section-head .count{font-size:11.5px; color:var(--ink-soft); margin-left:auto; white-space:nowrap;}
+
+/* ---------- assessment card ---------- */
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-left:4px solid var(--accent);
+  border-radius:10px;
+  padding:16px 18px 14px;
+  margin-bottom:14px;
+  break-inside:avoid; page-break-inside:avoid;
+}
+.card .q-row{
+  display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
+  margin-bottom:12px;
+}
+.card .q-label{font-size:11px; color:var(--accent); font-weight:700; letter-spacing:.04em;}
+.card .q-text{font-size:14.5px; font-weight:600; color:var(--ink); margin-top:3px;}
+.score-picker{display:flex; gap:6px; flex-shrink:0;}
+.score-picker .pt{
+  width:24px; height:24px; border-radius:50%;
+  border:1.5px solid var(--ink-soft);
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; color:var(--ink-soft); font-weight:700;
+}
+
+.tiers{display:flex; flex-direction:column; gap:7px; margin-bottom:11px;}
+.tier{
+  display:grid; grid-template-columns:60px 1fr;
+  gap:10px; padding:7px 10px; border-radius:7px;
+  font-size:12.8px; line-height:1.5;
+}
+.tier.good{background:var(--good-bg);}
+.tier.mid{background:var(--mid-bg);}
+.tier.poor{background:var(--poor-bg);}
+.tier .tag{font-weight:700; font-size:11.5px; padding-top:1px;}
+.tier.good .tag{color:var(--good);}
+.tier.mid .tag{color:var(--mid);}
+.tier.poor .tag{color:var(--poor);}
+.tier .ans{color:var(--ink);}
+
+.notefill{
+  border-bottom:1px dotted var(--ink-soft);
+  height:15px;
+  margin-top:2px;
+}
+.notefill-label{font-size:10.5px; color:var(--ink-soft); letter-spacing:.05em;}
+
+/* ---------- behavior checklist ---------- */
+.behavior-card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-left:4px solid var(--stamp);
+  border-radius:10px;
+  padding:16px 18px;
+  margin-bottom:14px;
+  break-inside:avoid; page-break-inside:avoid;
+}
+.behavior-list{display:grid; grid-template-columns:1fr 1fr; gap:8px 20px;}
+.behavior-item{
+  display:flex; align-items:flex-start; gap:9px;
+  font-size:13px; color:var(--ink);
+}
+.chk{
+  width:16px; height:16px; border:1.5px solid var(--ink-soft);
+  border-radius:4px; flex-shrink:0; margin-top:1.5px;
+}
+.behavior-note{
+  font-size:12px; color:var(--poor); margin-top:12px;
+  border-top:1px dashed var(--line); padding-top:10px;
+}
+
+/* ---------- reminder box ---------- */
+.reminder{
+  background:var(--accent-soft);
+  border:1px dashed var(--accent);
+  border-radius:10px;
+  padding:14px 18px;
+  font-size:12.8px; color:var(--ink);
+  line-height:1.7;
+  margin:30px 0;
+}
+.reminder b{color:var(--accent);}
+
+/* ---------- summary ---------- */
+.summary{
+  border:1.5px solid var(--ink);
+  border-radius:10px;
+  padding:20px;
+  margin-top:8px;
+  background:var(--paper);
+}
+.summary h2{font-size:17px; margin-bottom:14px;}
+.summary-grid{
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px;
+  margin-bottom:18px;
+}
+.sumbox{text-align:center; padding:10px; background:var(--paper-2); border-radius:8px;}
+.sumbox .lbl{font-size:10.5px; color:var(--ink-soft); letter-spacing:.05em; margin-bottom:6px;}
+.sumbox .val{font-family:"Noto Serif SC",serif; font-weight:900; font-size:22px; color:var(--accent);}
+.verdicts{display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;}
+.verdict{
+  flex:1; min-width:120px; text-align:center;
+  border:1.5px solid var(--line); border-radius:8px; padding:10px;
+  font-size:13px; font-weight:600;
+}
+.verdict .chk{margin:0 auto 6px;}
+.sig-row{display:flex; gap:24px; margin-top:6px;}
+.sig-row .sig{flex:1;}
+.sig-row label{display:block; font-size:10.5px; color:var(--ink-soft); margin-bottom:14px;}
+.sig-row .fill{border-bottom:1px dotted var(--ink-soft); height:14px;}
+
+footer{
+  text-align:center; font-size:11px; color:var(--ink-soft);
+  margin-top:34px;
+}
+
+@media (max-width:620px){
+  .infogrid{grid-template-columns:repeat(2,1fr);}
+  .infogrid .cell:nth-child(4n){border-right:1px solid var(--line);}
+  .infogrid .cell:nth-child(2n){border-right:none;}
+  .infogrid .cell.wide{grid-column:span 2;}
+  .summary-grid{grid-template-columns:1fr;}
+  .behavior-list{grid-template-columns:1fr;}
+  .tier{grid-template-columns:50px 1fr;}
+  .masthead{flex-direction:column; align-items:flex-start;}
+}
+
+@media print{
+  body{background:#fff; padding:0;}
+  .toolbar{display:none;}
+  .sheet{max-width:none; padding:0 6mm;}
+  .card, .behavior-card{box-shadow:none;}
+  a{color:inherit; text-decoration:none;}
+  @page{margin:12mm;}
+}
+</style>
+
+<div class="toolbar no-print">
+  <button class="print-btn" onclick="window.print()">🖨 打印此表</button>
+</div>
+
+<div class="sheet">
+
+  <div class="masthead">
+    <div>
+      <div class="eyebrow">Postpartum Caregiver Interview</div>
+      <h1>月嫂 / 育儿嫂面试评分表</h1>
+      <div class="sub">按知识点当场提问，对照三档参考答案打分；沟通与性格现场观察打勾。满分 21 分。</div>
+    </div>
+    <div class="badge">面完再决定</div>
+  </div>
+
+  <div class="infogrid">
+    <div class="cell"><label>候选人姓名</label><div class="fill"></div></div>
+    <div class="cell"><label>从业年限</label><div class="fill"></div></div>
+    <div class="cell"><label>报价 / 26天或42天</label><div class="fill"></div></div>
+    <div class="cell"><label>面试日期</label><div class="fill"></div></div>
+    <div class="cell wide"><label>擅长方向（月嫂 / 育儿嫂 / 双证）</label><div class="fill"></div></div>
+    <div class="cell wide"><label>最近一单服务时间 / 家庭情况</label><div class="fill"></div></div>
+  </div>
+
+  <!-- A -->
+  <div class="section-head">
+    <div class="num">1</div>
+    <h2>黄疸判断与护理</h2>
+    <div class="count">满分 3</div>
+  </div>
+  <div class="card">
+    <div class="q-row">
+      <div>
+        <div class="q-label">现场提问</div>
+        <div class="q-text">"宝宝回家如果还有黄疸，你怎么护理？什么情况你会建议我们去医院？"</div>
+      </div>
+      <div class="score-picker"><div class="pt">0</div><div class="pt">1</div><div class="pt">2</div><div class="pt">3</div></div>
+    </div>
+    <div class="tiers">
+      <div class="tier good"><div class="tag">3分・优秀</div><div class="ans">能说出"多吃多排、晒太阳"，并给出具体预警信号——比如黄疸范围一天内从脸部扩散到膝盖以下、宝宝精神差吃奶差手脚心发黄，就要及时就医测经皮胆红素。</div></div>
+      <div class="tier mid"><div class="tag">2分・合格</div><div class="ans">知道"多吃多排、晒太阳"的基本原则，但说不出具体什么情况需要就医，只会说"不放心就去医院看看"。</div></div>
+      <div class="tier poor"><div class="tag">0-1分・不合格</div><div class="ans">把黄疸和"上火"混为一谈；或坚持"母乳导致黄疸必须马上停奶"（这是过时说法，正规护理不会一概而论）。</div></div>
+    </div>
+    <div class="notefill-label">记录候选人原话</div>
+    <div class="notefill"></div>
+  </div>
+
+  <!-- B -->
+  <div class="section-head">
+    <div class="num">2</div>
+    <h2>喂养判断（母乳 / 奶粉）</h2>
+    <div class="count">满分 3</div>
+  </div>
+  <div class="card">
+    <div class="q-row">
+      <div>
+        <div class="q-label">现场提问</div>
+        <div class="q-text">"你怎么判断宝宝是不是吃饱了？我们家如果混合喂养，奶粉量大概怎么估？"</div>
+      </div>
+      <div class="score-picker"><div class="pt">0</div><div class="pt">1</div><div class="pt">2</div><div class="pt">3</div></div>
+    </div>
+    <div class="tiers">
+      <div class="tier good"><div class="tag">3分・优秀</div><div class="ans">综合看体重增长、大小便次数、吃奶后是否安稳，能说出"每个宝宝不同、给的是参考范围"，同时明确出生体重下降不超过出生体重的10%属正常。</div></div>
+      <div class="tier mid"><div class="tag">2分・合格</div><div class="ans">能说出按月龄的大致奶量范围和常见信号（哭闹、找奶、尿布次数），但数字记不准，愿意如实说"不确定，到时候看情况"。</div></div>
+      <div class="tier poor"><div class="tag">0-1分・不合格</div><div class="ans">报出的奶粉配比和奶量前后自相矛盾（比如说错勺数还坚持没错）；或被问到具体范围就情绪化、说"每个宝宝不一样"来搪塞所有问题。</div></div>
+    </div>
+    <div class="notefill-label">记录候选人原话</div>
+    <div class="notefill"></div>
+  </div>
+
+  <!-- C -->
+  <div class="section-head">
+    <div class="num">3</div>
+    <h2>呛奶与急救</h2>
+    <div class="count">满分 3</div>
+  </div>
+  <div class="card">
+    <div class="q-row">
+      <div>
+        <div class="q-label">现场提问</div>
+        <div class="q-text">"宝宝如果轻微呛奶、跟严重呛奶分别怎么处理？海姆立克急救法你会做吗，能简单说一下步骤吗？"</div>
+      </div>
+      <div class="score-picker"><div class="pt">0</div><div class="pt">1</div><div class="pt">2</div><div class="pt">3</div></div>
+    </div>
+    <div class="tiers">
+      <div class="tier good"><div class="tag">3分・优秀</div><div class="ans">轻微呛奶：侧身拍背或飞机抱；严重呛奶（呛到脸色发紫、呼吸困难）能准确说出婴儿海姆立克手法要领（拍背—胸部按压交替），语气笃定不含糊。</div></div>
+      <div class="tier mid"><div class="tag">2分・合格</div><div class="ans">知道轻微呛奶怎么处理，也听说过海姆立克，但具体步骤说得不熟练，需要多提示。</div></div>
+      <div class="tier poor"><div class="tag">0-1分・不合格</div><div class="ans">说不出海姆立克是什么；或描述的手法明显错误、危险（比如提脚倒拎宝宝）。这一项是安全底线，答不上来建议直接淘汰。</div></div>
+    </div>
+    <div class="notefill-label">记录候选人原话</div>
+    <div class="notefill"></div>
+  </div>
+
+  <!-- D -->
+  <div class="section-head">
+    <div class="num">4</div>
+    <h2>皮疹辨别</h2>
+    <div class="count">满分 3</div>
+  </div>
+  <div class="card">
+    <div class="q-row">
+      <div>
+        <div class="q-label">现场提问</div>
+        <div class="q-text">"湿疹、热疹、激素疹你怎么区分？分别怎么护理？"</div>
+      </div>
+      <div class="score-picker"><div class="pt">0</div><div class="pt">1</div><div class="pt">2</div><div class="pt">3</div></div>
+    </div>
+    <div class="tiers">
+      <div class="tier good"><div class="tag">3分・优秀</div><div class="ans">激素疹＝母体激素影响，保持清洁干爽会自行消退；湿疹＝多与过敏/干燥有关，需要保湿护理；热疹＝闷热出汗导致，靠控温控湿预防。三者诱因、外观、处理方式都答得清楚。</div></div>
+      <div class="tier mid"><div class="tag">2分・合格</div><div class="ans">大致能分开描述，但对处理方式说得笼统，比如统一说"保湿就好"或"擦点药就行"。</div></div>
+      <div class="tier poor"><div class="tag">0-1分・不合格</div><div class="ans">把不同类型混为一谈（比如把疱疹说成"上火"），或者一遇到皮疹类问题就直接建议用药，不提护理方式。</div></div>
+    </div>
+    <div class="notefill-label">记录候选人原话</div>
+    <div class="notefill"></div>
+  </div>
+
+  <!-- E -->
+  <div class="section-head">
+    <div class="num">5</div>
+    <h2>产妇护理与服务边界</h2>
+    <div class="count">满分 3</div>
+  </div>
+  <div class="card">
+    <div class="q-row">
+      <div>
+        <div class="q-label">现场提问</div>
+        <div class="q-text">"生理性胀奶你怎么处理？如果堵奶、乳腺炎了，是你来通还是要另外叫催乳师？费用怎么算？"</div>
+      </div>
+      <div class="score-picker"><div class="pt">0</div><div class="pt">1</div><div class="pt">2</div><div class="pt">3</div></div>
+    </div>
+    <div class="tiers">
+      <div class="tier good"><div class="tag">3分・优秀</div><div class="ans">生理性胀奶：多让宝宝吸、热敷/冷敷（土豆、包心菜等外敷）缓解，1-3天自行消退。主动说明自己的服务边界——只做日常观察和简单按摩放松，不做穴位精准手法，真正堵奶/乳腺炎建议请专业催乳师，且提前说清是否额外收费。</div></div>
+      <div class="tier mid"><div class="tag">2分・合格</div><div class="ans">知道生理性胀奶的基本处理方法，但对"通乳算不算她的工作范围"含糊其辞，需要你追问才说清楚。</div></div>
+      <div class="tier poor"><div class="tag">0-1分・不合格</div><div class="ans">一口答应"什么都能通"却说不出具体手法（可能是夸大承诺）；或者完全回避这个问题、态度不耐烦。</div></div>
+    </div>
+    <div class="notefill-label">记录候选人原话（尤其是收费边界）</div>
+    <div class="notefill"></div>
+  </div>
+
+  <!-- F -->
+  <div class="section-head">
+    <div class="num">6</div>
+    <h2>环境与操作细节</h2>
+    <div class="count">满分 3</div>
+  </div>
+  <div class="card">
+    <div class="q-row">
+      <div>
+        <div class="q-label">现场提问</div>
+        <div class="q-text">"脐带没脱落之前怎么给宝宝洗澡？房间温湿度你会控制在多少？平时早教都做些什么？"</div>
+      </div>
+      <div class="score-picker"><div class="pt">0</div><div class="pt">1</div><div class="pt">2</div><div class="pt">3</div></div>
+    </div>
+    <div class="tiers">
+      <div class="tier good"><div class="tag">3分・优秀</div><div class="ans">脐带未脱落优先擦身或上下身分开洗，下水需用防水脐贴；室温24-26℃、湿度50%-60%；水温37-38℃；早教能按月龄说出具体项目（黑白卡20-30cm、追视、抚触、俯卧抬头、排气操）并说明会随月龄调整。</div></div>
+      <div class="tier mid"><div class="tag">2分・合格</div><div class="ans">大方向对，但数值记不准确（比如说不出具体温湿度范围），早教项目笼统说"就是多陪他玩"。</div></div>
+      <div class="tier poor"><div class="tag">0-1分・不合格</div><div class="ans">说不出温湿度和水温的合理范围；早教环节完全答不上来，或者说"这个不重要，孩子这么小不用弄"。</div></div>
+    </div>
+    <div class="notefill-label">记录候选人原话</div>
+    <div class="notefill"></div>
+  </div>
+
+  <!-- G behavior -->
+  <div class="section-head">
+    <div class="num">7</div>
+    <h2>沟通与性格观察</h2>
+    <div class="count">现场打勾，不计入知识总分</div>
+  </div>
+  <div class="behavior-card">
+    <div class="behavior-list">
+      <div class="behavior-item"><div class="chk"></div>回答被追问细节时依然耐心，不敷衍</div>
+      <div class="behavior-item"><div class="chk"></div>能诚实说"这个不确定/我不做"，而不是硬答</div>
+      <div class="behavior-item"><div class="chk"></div>抱娃、模拟操作时动作轻柔、看着孩子</div>
+      <div class="behavior-item"><div class="chk"></div>主动问你家里的具体情况和需求</div>
+      <div class="behavior-item"><div class="chk"></div>混着问同一知识点时前后回答一致（非背模板）</div>
+      <div class="behavior-item"><div class="chk"></div>语气平和，没有反驳、翻白眼、不耐烦</div>
+    </div>
+    <div class="behavior-note">⚠ 出现以下任一情况：被多问几次就情绪激动 / 回答需要"旁边有人提示" / 眼神躲闪不看孩子 / 简历经历前后对不上——建议直接淘汰，不必纠结知识分数。</div>
+  </div>
+
+  <div class="reminder">
+    <b>提醒：</b>面试表现和上户后表现可能是两个人。熟人推荐的"好用"仅供参考——每家需求不同，且不排除有推荐返佣的情况。真正靠谱的判断，只能来自你自己当场提的这些问题和她当下的状态，而不是别人嘴里的口碑。
+  </div>
+
+  <div class="summary">
+    <h2>综合评定</h2>
+    <div class="summary-grid">
+      <div class="sumbox"><div class="lbl">知识总分（满分18）</div><div class="val">___ / 18</div></div>
+      <div class="sumbox"><div class="lbl">沟通性格打勾数（满分6）</div><div class="val">___ / 6</div></div>
+      <div class="sumbox"><div class="lbl">报价</div><div class="val">¥___</div></div>
+    </div>
+    <div class="verdicts">
+      <div class="verdict"><div class="chk"></div>推荐录用</div>
+      <div class="verdict"><div class="chk"></div>待定 / 再面一次</div>
+      <div class="verdict"><div class="chk"></div>不推荐</div>
+    </div>
+    <div class="sig-row">
+      <div class="sig"><label>其他备注</label><div class="fill"></div></div>
+      <div class="sig"><label>面试人 / 日期</label><div class="fill"></div></div>
+    </div>
+  </div>
+
+  <footer>月嫂 / 育儿嫂面试参考表 · 每项分数仅供参考，最终请结合自己家庭实际需求判断</footer>
+
+</div>

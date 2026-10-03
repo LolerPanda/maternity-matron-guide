@@ -2,7 +2,17 @@
 
 [English](README.en.md)
 
-帮助待产与产后家庭准备、沟通和分担照护的实用工具。目前包含：
+帮助待产与产后家庭准备、沟通和分担照护的实用工具。
+
+## 新版：爸爸值夜班
+
+[直接开始中文版游戏](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/)
+
+控制角色在四个房间里移动，搬运物品、整理婴儿床、接手换护、送水送饭、处理门铃与电话，并找帮手交接休息。单晚最长六分钟，支持键盘、鼠标和手机点按；含八项连续任务、定时事件与夜班回顾。这是第一章单人模拟游戏，不再以答题为主要玩法。
+
+此前的双语问答保留为 [中文知识练习](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/practice.html) / [English practice](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/en.html)。英文版目前仍是知识练习。
+
+其他资源：
 
 - **爸爸，准备好了吗？ / Dad, You Got This**：中文、英文双语情境游戏，四章共 12 个情境，覆盖待产准备、陪产沟通、夜间照护、家庭边界与情绪支持。包含即时反馈、章节徽章、复习、准备清单和本地进度保存。
 - **月嫂 / 育儿嫂面试评分表**：保留原有中文网页与可打印 PDF，帮助家庭有条理地考察候选人的专业知识、沟通与服务边界。
@@ -29,8 +39,8 @@ python3 -m http.server 8873 --bind 127.0.0.1
 
 浏览器打开：
 
-- 中文游戏：<http://127.0.0.1:8873/dad-quest/index.html>
-- English game：<http://127.0.0.1:8873/dad-quest/en.html>
+- 中文操作游戏：<http://127.0.0.1:8873/dad-quest/index.html>
+- English knowledge practice：<http://127.0.0.1:8873/dad-quest/en.html>
 - 中文面试评分表：<http://127.0.0.1:8873/scorecard.html>
 
 端口被占用时改用其他端口。也可直接用浏览器打开相应 HTML 文件；需要稳定的游戏进度保存和跨语言共享时，推荐使用上面的本地服务器方式。无需安装前端依赖或执行构建。
@@ -45,12 +55,15 @@ maternity-matron-guide/
 ├── README.md                       # 中文仓库说明
 ├── README.en.md                    # English repository guide
 ├── dad-quest/
-│   ├── index.html                  # 中文游戏入口
+│   ├── index.html                  # 中文操作游戏
+│   ├── practice.html               # 原中文知识练习
 │   ├── en.html                     # English game entry
 │   ├── assets/
+│   │   ├── css/night.css           # 操作游戏样式
 │   │   ├── css/style.css           # 双语共享样式
 │   │   ├── images/family.svg       # 本地插画
 │   │   └── js/
+│   │       ├── night.js            # 游戏循环、寻路与任务
 │   │       ├── app.js              # 共享游戏逻辑
 │   │       └── locales/
 │   │           ├── zh-CN.js        # 中文情境与界面
@@ -63,7 +76,7 @@ maternity-matron-guide/
 └── 月嫂面试评分表.pdf                # 原可打印 PDF，路径不变
 ```
 
-## 双语游戏
+## 双语知识练习
 
 详细运行、存储、内容来源与开发说明见 [中文游戏文档](dad-quest/README.md) / [English game documentation](dad-quest/README.en.md)。
 
@@ -73,7 +86,7 @@ maternity-matron-guide/
 
 ```sh
 node --check dad-quest/assets/js/app.js
-node --test dad-quest/tests/content.test.cjs
+node --test dad-quest/tests/*.test.cjs
 ```
 
 ## 月嫂 / 育儿嫂面试评分表

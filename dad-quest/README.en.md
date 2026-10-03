@@ -1,10 +1,12 @@
 # Dad, You Got This
 
+**New: [Dad on Night Duty — playable Chinese simulation](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/).** Move around four rooms, carry supplies, share care, manage interruptions, and hand over to a helper. This first episode is a single-player Chinese game. The English page below remains the original learning quiz; it is not an English translation of the new simulation. See the [Chinese game guide](README.md) for current game controls and structure.
+
 [中文说明](README.md)
 
 A bilingual Chinese / English scenario game for expectant dads, new dads, and other caregivers. Practice preparation, birth support, shared care, and emotional support after birth.
 
-[在线中文版](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/index.html) · [Play online in English](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/en.html)
+[在线中文版](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/practice.html) · [Play online in English](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/en.html)
 
 ## Play locally
 

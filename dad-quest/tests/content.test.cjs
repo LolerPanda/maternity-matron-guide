@@ -25,7 +25,7 @@ test('English learning content has no untranslated Chinese strings',()=>{
   assert.ok(!/[\u3400-\u9fff]/u.test(JSON.stringify(copy)));
 });
 test('both entry pages reference existing local assets and the correct locale',()=>{
-  for(const [file,lang] of [['index.html','zh-CN'],['en.html','en']]){
+  for(const [file,lang] of [['practice.html','zh-CN'],['en.html','en']]){
     const html=fs.readFileSync(path.join(root,file),'utf8');
     assert.ok(html.includes(`<html lang="${lang}">`));
     assert.ok(html.includes(`assets/js/locales/${lang}.js`));

@@ -1,5 +1,7 @@
 # Maternity & New Parent Toolkit
 
+**New: [Dad on Night Duty — playable Chinese simulation](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/).** Move around four rooms, carry supplies, share care, manage interruptions, and hand over to a helper. This first episode is a single-player Chinese game. The English page below remains the original learning quiz; it is not an English translation of the new simulation. See the [Chinese game guide](dad-quest/README.md) for current game controls and structure.
+
 [中文](README.md)
 
 Practical resources for families preparing for birth and sharing care afterward.
@@ -12,7 +14,7 @@ Practical resources for families preparing for birth and sharing care afterward.
 No download or sign-in required. Open on a phone or computer:
 
 - [Play in English](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/en.html)
-- [中文版](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/index.html)
+- [中文版](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/practice.html)
 - [Chinese interview scorecard](https://lolerpanda.github.io/maternity-matron-guide/scorecard.html)
 
 GitHub Pages publishes the root of the main branch. Progress stays in each participant’s browser; it is not uploaded or shared with other participants.
@@ -43,7 +45,7 @@ maternity-matron-guide/
 ├── README.md                       # Chinese repository guide
 ├── README.en.md                    # English repository guide
 ├── dad-quest/
-│   ├── index.html                  # Chinese game entry
+│   ├── index.html                  # Chinese simulation entry
 │   ├── en.html                     # English game entry
 │   ├── assets/
 │   │   ├── css/style.css           # Shared styles

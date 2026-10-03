@@ -29,7 +29,7 @@ function route(view='home',value=''){
   const hash=view==='home'?'':`#${view}=${value}`;
   // Entry pages remain directly openable from disk; navigation never requires a server router.
   try {history.replaceState(null,'',location.pathname+location.search+hash);}catch{}
-  $('#language-switch').href=(english?'index.html':'en.html')+hash;
+  $('#language-switch').href=(english?'practice.html':'en.html')+hash;
 }
 function top(){window.scrollTo(0,0);}
 function home(){

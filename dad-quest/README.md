@@ -4,6 +4,8 @@
 
 一款中文 / English 双语情境选择游戏，帮助准爸爸、新手爸爸及其他照护者练习待产准备、陪产沟通、照护协作与产后情绪支持。
 
+[在线中文版](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/index.html) · [Play online in English](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/en.html)
+
 ## 开始使用
 
 在本目录运行：

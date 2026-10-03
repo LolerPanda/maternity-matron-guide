@@ -4,6 +4,8 @@
 
 A bilingual Chinese / English scenario game for expectant dads, new dads, and other caregivers. Practice preparation, birth support, shared care, and emotional support after birth.
 
+[在线中文版](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/index.html) · [Play online in English](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/en.html)
+
 ## Play locally
 
 From this directory, run:

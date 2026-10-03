@@ -7,7 +7,17 @@ Practical resources for families preparing for birth and sharing care afterward.
 - **Dad, You Got This**: a complete Chinese / English scenario game with four chapters and twelve situations covering preparation, birth support, shared care, boundaries, and emotional well-being. Includes feedback, learning badges, focused review, a checklist, and locally saved progress.
 - **Maternity / infant caregiver interview scorecard**: the existing Chinese web page and printable PDF, with knowledge prompts and communication observations. These original resources remain in Chinese.
 
-## Get started
+## Play online
+
+No download or sign-in required. Open on a phone or computer:
+
+- [Play in English](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/en.html)
+- [中文版](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/index.html)
+- [Chinese interview scorecard](https://lolerpanda.github.io/maternity-matron-guide/scorecard.html)
+
+GitHub Pages publishes the root of the main branch. Progress stays in each participant’s browser; it is not uploaded or shared with other participants.
+
+## Local development
 
 ```sh
 git clone https://github.com/LolerPanda/maternity-matron-guide.git
@@ -23,12 +33,13 @@ Open in your browser:
 
 Choose another port if needed. You can also open the HTML files directly, though a local server is recommended for reliable progress storage and language sharing. No frontend dependencies or build process are required.
 
-GitHub file pages display source code; they do not run the HTML game. Download or clone the repository and follow the steps above to play.
 
 ## Structure
 
 ```text
 maternity-matron-guide/
+├── index.html                      # Public site entry
+├── .nojekyll                       # Static GitHub Pages publishing
 ├── README.md                       # Chinese repository guide
 ├── README.en.md                    # English repository guide
 ├── dad-quest/

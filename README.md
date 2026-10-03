@@ -7,7 +7,17 @@
 - **爸爸，准备好了吗？ / Dad, You Got This**：中文、英文双语情境游戏，四章共 12 个情境，覆盖待产准备、陪产沟通、夜间照护、家庭边界与情绪支持。包含即时反馈、章节徽章、复习、准备清单和本地进度保存。
 - **月嫂 / 育儿嫂面试评分表**：保留原有中文网页与可打印 PDF，帮助家庭有条理地考察候选人的专业知识、沟通与服务边界。
 
-## 快速开始
+## 在线体验
+
+无需下载或注册，手机和电脑均可直接访问：
+
+- [中文游戏](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/index.html)
+- [English game](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/en.html)
+- [月嫂面试评分表](https://lolerpanda.github.io/maternity-matron-guide/scorecard.html)
+
+GitHub Pages 从 main 分支根目录发布。进度保存在各参与者自己的浏览器中，不上传到 GitHub，也不与其他人共享。
+
+## 本地开发
 
 克隆仓库后，从仓库根目录运行：
 
@@ -25,12 +35,13 @@ python3 -m http.server 8873 --bind 127.0.0.1
 
 端口被占用时改用其他端口。也可直接用浏览器打开相应 HTML 文件；需要稳定的游戏进度保存和跨语言共享时，推荐使用上面的本地服务器方式。无需安装前端依赖或执行构建。
 
-GitHub 文件页展示源码，并不直接运行 HTML 游戏。下载或克隆后可按上面的方式开始使用。
 
 ## 项目结构
 
 ```text
 maternity-matron-guide/
+├── index.html                      # Public site entry
+├── .nojekyll                       # Static GitHub Pages publishing
 ├── README.md                       # 中文仓库说明
 ├── README.en.md                    # English repository guide
 ├── dad-quest/

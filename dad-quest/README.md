@@ -1,3 +1,33 @@
+# 爸爸练习生 · 围产成长地图
+
+[直接在线游玩：十章中文游戏合集](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/series.html)
+
+从孕晚期到产后持续支持，每章一种主要玩法：**行李拼图、路线应变、医院陪产、出院交接、家庭夜班、轮班排程、环境安抚、来访分流、求助通讯、支持网络**。保留两款场景模拟，新增八款独立互动游戏。所有章节开放，无需刷关或连续登录。
+
+新增八章支持电脑和手机、过程自动存档、可选原创程序配乐；提示放在场景外。已有陪产与夜班游戏保留原玩法及最佳成绩存储。详细的场景覆盖、去重复设计和未覆盖情境见 [系列规划](docs/SERIES_PLAN.md)。新系列目前为中文；英文版仍是原有知识练习。
+
+## 合集文件结构
+
+```text
+dad-quest/
+├── series.html                 # 十章地图与完成标记
+├── adventure.html              # 八个新章节的独立入口
+├── index.html / labor.html     # 家庭夜班 / 医院陪产
+├── practice.html / en.html     # 中文 / 英文知识练习
+├── docs/SERIES_PLAN.md          # 场景覆盖与玩法分工
+├── assets/css/series.css        # 合集和八章的响应式布局
+├── assets/js/series-data.js     # 章节与参考资料
+├── assets/js/series-core.js     # 拼图规则、校验和本地存储
+├── assets/js/series-hub.js      # 地图与进度展示
+├── assets/js/episodes.js        # 八种互动玩法
+├── assets/js/music.js           # 原创合成配乐
+└── tests/                      # 规则、流程、内容与音乐回归测试
+```
+
+新章节使用 `dad-series-v1` 保存过程及完成标记，旧游戏存储键不变。清理浏览器数据会清空进度；没有账号、云同步或联网对战。存储不可用时仍可游玩，但无法在关闭后恢复。
+
+---
+
 # 爸爸值夜班 · 回家第一晚
 
 **新增独立章节：[爸爸陪产 · 我在你身边](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/labor.html)**，详见 [陪产篇玩法](LABOR.md)。下文介绍原有「回家第一晚」。

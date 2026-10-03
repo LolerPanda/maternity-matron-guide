@@ -1,5 +1,13 @@
 # 围产家庭支持工具 / Maternity & New Parent Toolkit
 
+**[爸爸练习生 · 十章中文游戏合集](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/series.html)**
+
+已实现从孕晚期到产后支持的十种挑战：行李拼图、路线应变、医院陪产、出院交接、家庭夜班、轮班排程、环境安抚、来访分流、求助通讯、支持网络。新增八章采用不同操作机制，可自由选章、自动保存，不要求重复刷关。
+
+[系列规划与覆盖边界](dad-quest/docs/SERIES_PLAN.md) · [游戏结构与操作说明](dad-quest/README.md)
+
+公共网站根入口进入成长地图；旧游戏地址保持可用。
+
 **新游戏：[爸爸陪产 · 我在你身边](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/labor.html)** — 入院交接、物品递送、握手节奏挑战、医护沟通与产后交接。可独立游玩，支持中文与手机操作。[玩法说明](dad-quest/LABOR.md)。
 
 [English](README.en.md)
@@ -57,6 +65,9 @@ maternity-matron-guide/
 ├── README.md                       # 中文仓库说明
 ├── README.en.md                    # English repository guide
 ├── dad-quest/
+│   ├── series.html                 # 十章中文成长地图
+│   ├── adventure.html              # 八款新互动章节
+│   ├── docs/SERIES_PLAN.md          # 场景规划与玩法分工
 │   ├── labor.html                  # 新增中文陪产游戏
 │   ├── LABOR.md                    # 陪产篇玩法说明
 │   ├── index.html                  # 中文操作游戏
@@ -67,6 +78,10 @@ maternity-matron-guide/
 │   │   ├── css/style.css           # 双语共享样式
 │   │   ├── images/family.svg       # 本地插画
 │   │   └── js/
+│   │       ├── series-data.js      # 十章元数据
+│   │       ├── series-core.js      # 规则与存储
+│   │       ├── series-hub.js       # 地图与进度
+│   │       ├── episodes.js         # 八种新玩法
 │   │       ├── night.js            # 游戏循环、寻路与任务
 │   │       ├── app.js              # 共享游戏逻辑
 │   │       └── locales/

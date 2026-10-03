@@ -1,0 +1,20 @@
+/* Major family-life situations, not an exhaustive list of medical pathways. */
+window.DAD_CHAPTERS = [
+{id:'pack',stage:'孕晚期',name:'行李，不是越多越好',subtitle:'空间拼图',icon:'▦',minutes:'3–5',color:'#dfb990',desc:'旋转、摆放，把真正需要的东西装进有限空间。',mechanic:'旋转物件 · 网格装箱',lesson:'按医院清单准备，证件与紧急联系方式放在易取的位置。'},
+{id:'route',stage:'临产出发',name:'出发，也要留一条备用路',subtitle:'路线应变',icon:'⌁',minutes:'2–3',color:'#b2cbbf',desc:'确认联络渠道，沿道路规划抵达路线，应对临时封路。',mechanic:'路线连接 · 实时改道',lesson:'遵循产科给出的就诊安排；游戏交通不代表真实导航。'},
+{id:'labor',stage:'待产与分娩',name:'我在，你不用独自面对',subtitle:'角色陪伴',icon:'♡',minutes:'5–8',color:'#bed2cb',desc:'在医院走动、交接资料，以握手节奏回应她的需要。',mechanic:'场景探索 · 节奏互动',href:'labor.html',lesson:'支持她与医护沟通，不替她作出医疗选择。'},
+{id:'handover',stage:'住院与出院',name:'别把交接留给记忆',subtitle:'信息拼接',icon:'▤',minutes:'2–4',color:'#cdc6de',desc:'从交接资料里提取信息，补齐缺失记录，带着清楚的安排回家。',mechanic:'查阅档案 · 信息归档',lesson:'出院资料有缺漏时当面确认，不靠猜测补全。'},
+{id:'night',stage:'回家第一晚',name:'今晚，你来接一班',subtitle:'家庭模拟',icon:'☾',minutes:'4–6',color:'#d2d8b8',desc:'整理空间、递送物品、接手换护，最后交给帮手休息。',mechanic:'移动搬运 · 连续照护',href:'index.html',lesson:'照护需要具体行动，也需要清楚交接。'},
+{id:'shifts',stage:'产后第一周',name:'把休息排进生活',subtitle:'轮班排程',icon:'▥',minutes:'3–5',color:'#b9cbd8',desc:'把任务和休息放进时间表，利用帮手的可用时段。',mechanic:'时间格调度 · 约束解谜',lesson:'这是成人分工表，不是给新生儿规定喂养和睡眠时刻。'},
+{id:'soothe',stage:'新生儿日常',name:'哭声里的暂停键',subtitle:'环境调节',icon:'◌',minutes:'2–3',color:'#dfc7ac',desc:'调暗环境、降低声音，练习在自己快撑不住时先安置宝宝再求助。',mechanic:'旋钮调节 · 安全暂停',lesson:'哭泣不总能立刻停止。感到失控时确保宝宝安全，寻求支援，绝不摇晃。'},
+{id:'visitors',stage:'亲友与边界',name:'把好意安排在合适的位置',subtitle:'来访分流',icon:'⇆',minutes:'2–4',color:'#d4c3bd',desc:'让外卖、家务帮助和亲友探望各走合适的通道。',mechanic:'移动卡片 · 接待分流',lesson:'用具体安排协调亲友，保留休息空间和就医联络。'},
+{id:'signal',stage:'异常与求助',name:'接通那通重要的电话',subtitle:'求助通讯',icon:'✚',minutes:'2–3',color:'#d9b7ac',desc:'先联系医护，再把看到的症状和时间传递清楚。',mechanic:'启动求助 · 事实组装',lesson:'警示信号需要及时求医；记录资料不能成为延误求助的理由。'},
+{id:'network',stage:'持续恢复',name:'我们需要的不止两双手',subtitle:'支持网络',icon:'✧',minutes:'3–5',color:'#bdc8aa',desc:'把家务、陪伴与专业需求连到合适的人，避免任何一个人超载。',mechanic:'连线分工 · 支援容量',lesson:'恢复、喂养困难和情绪困扰都可以寻求适合的支持。'}
+];
+window.DAD_REFERENCES = [
+['NHS · 陪产伙伴','https://www.nhs.uk/best-start-in-life/pregnancy/preparing-for-labour-and-birth/tips-for-your-birthing-partner-or-partners/'],
+['NHS · 临产信号与联络','https://www.nhs.uk/pregnancy/labour-and-birth/signs-that-labour-has-begun/'],
+['NHS · 安抚哭泣宝宝','https://www.nhs.uk/baby/caring-for-a-newborn/soothing-a-crying-baby/'],
+['NHS · 产后情绪支持','https://www.nhs.uk/mental-health/conditions/postnatal-depression/'],
+['CDC · 紧急孕产期警示信号','https://www.cdc.gov/hearher/maternal-warning-signs/index.html']
+];

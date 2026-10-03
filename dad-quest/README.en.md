@@ -1,3 +1,5 @@
+> New: [Dad Apprentice — 10 Chinese interactive chapters](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/series.html). The collection adds packing, routing, handoff records, shift planning, environment adjustment, visitor routing, urgent communication and support allocation to the existing labor and night simulations. New chapters autosave locally and can be played in any order. The English edition remains the original knowledge practice; these action chapters are currently Chinese only.
+
 # Dad, You Got This
 
 **New: [Dad on Night Duty — playable Chinese simulation](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/).** Move around four rooms, carry supplies, share care, manage interruptions, and hand over to a helper. This first episode is a single-player Chinese game. The English page below remains the original learning quiz; it is not an English translation of the new simulation. See the [Chinese game guide](README.md) for current game controls and structure.

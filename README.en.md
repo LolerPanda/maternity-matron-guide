@@ -1,5 +1,7 @@
 # Maternity & New Parent Toolkit
 
+**New Chinese episode: [Dad as a Birth Partner](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/labor.html).** A separate playable hospital chapter with object delivery, a timing challenge, family coordination and communication with the care team. [Chinese guide](dad-quest/LABOR.md).
+
 **New: [Dad on Night Duty — playable Chinese simulation](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/).** Move around four rooms, carry supplies, share care, manage interruptions, and hand over to a helper. This first episode is a single-player Chinese game. The English page below remains the original learning quiz; it is not an English translation of the new simulation. See the [Chinese game guide](dad-quest/README.md) for current game controls and structure.
 
 [中文](README.md)

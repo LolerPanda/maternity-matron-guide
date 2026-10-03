@@ -1,5 +1,7 @@
 # 围产家庭支持工具 / Maternity & New Parent Toolkit
 
+**新游戏：[爸爸陪产 · 我在你身边](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/labor.html)** — 入院交接、物品递送、握手节奏挑战、医护沟通与产后交接。可独立游玩，支持中文与手机操作。[玩法说明](dad-quest/LABOR.md)。
+
 [English](README.en.md)
 
 帮助待产与产后家庭准备、沟通和分担照护的实用工具。
@@ -55,6 +57,8 @@ maternity-matron-guide/
 ├── README.md                       # 中文仓库说明
 ├── README.en.md                    # English repository guide
 ├── dad-quest/
+│   ├── labor.html                  # 新增中文陪产游戏
+│   ├── LABOR.md                    # 陪产篇玩法说明
 │   ├── index.html                  # 中文操作游戏
 │   ├── practice.html               # 原中文知识练习
 │   ├── en.html                     # English game entry

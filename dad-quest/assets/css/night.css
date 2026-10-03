@@ -20,3 +20,6 @@
 .message-panel #speech{background:transparent;color:#304f43;padding:4px 0;min-height:50px;font-size:13px;line-height:1.7}
 .message-panel #toast{background:transparent;color:#7a6846;padding:4px 0;min-height:30px;font-size:11px;line-height:1.7}
 @media(max-width:600px){.message-panel{padding:10px 12px 6px}.message-panel #speech{font-size:12px;min-height:68px}.message-panel #toast{min-height:44px}}
+@media(max-width:600px){nav a.episode-link{display:inline-block}}
+
+.episode-return{display:block;margin-top:18px;color:#558771;font-size:13px;text-decoration:none}

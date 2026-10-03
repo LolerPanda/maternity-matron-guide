@@ -1,5 +1,7 @@
 # 爸爸值夜班 · 回家第一晚
 
+**新增独立章节：[爸爸陪产 · 我在你身边](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/labor.html)**，详见 [陪产篇玩法](LABOR.md)。下文介绍原有「回家第一晚」。
+
 [在线游玩中文版](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/)
 
 一款可直接在浏览器运行的俯视角家庭照护模拟游戏。玩家控制爸爸在卧室、客厅、厨房和家务角之间移动，用实际操作完成回家第一晚的任务。
@@ -30,6 +32,8 @@
 
 ```text
 dad-quest/
+├── labor.html                  # 独立中文陪产游戏
+├── LABOR.md                    # 陪产篇玩法说明
 ├── index.html                  # 中文可操作游戏
 ├── practice.html               # 原中文知识练习
 ├── en.html                     # 原英文知识练习
@@ -37,8 +41,10 @@ dad-quest/
 │   ├── css/night.css           # 游戏界面
 │   ├── css/style.css           # 知识练习样式
 │   ├── images/family.svg       # 知识练习插画
+│   ├── css/labor.css           # 陪产篇样式
 │   └── js/
 │       ├── music.js            # 本地合成背景配乐
+│       ├── labor.js            # 陪产、节奏挑战与医护交接
 │       ├── night.js            # Canvas 场景、寻路、任务与事件
 │       ├── app.js              # 知识练习逻辑
 │       └── locales/            # 中英文知识练习内容

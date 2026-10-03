@@ -3,3 +3,11 @@
 @media(max-width:600px){#interaction{position:relative;left:auto;right:auto;bottom:auto;transform:none;max-width:none;min-width:0;width:100%;border-radius:0;padding:12px 16px;justify-content:space-between}#touch{display:none}.topbar{padding:12px 10px;gap:8px}.stat{grid-template-columns:40px 14px;font-size:9px}.bottom-bar>span:first-child:after{content:'点击房间物品自动走近，再点互动。横屏游玩视野更好。'}#speech{max-width:90%;top:12%;font-size:10px}.logo b{font-size:14px}nav a{display:none}aside{column-gap:12px}}
 
 .mission:not(.active) small{display:none}
+
+/* Controls have their own row below the canvas at every viewport size. */
+.control-deck{display:flex;align-items:center;gap:14px;padding:12px 18px;background:#eeeede;border-top:1px solid #c9ceba}
+.control-deck #interaction{position:relative;inset:auto;transform:none;flex:1;min-width:0;max-width:none;width:auto;justify-content:space-between;border:0;border-radius:8px;box-shadow:none;padding:10px 14px;background:#faf9ee}
+.control-deck #interaction>div:first-child{min-width:0}.control-deck #interaction strong{line-height:1.6;overflow-wrap:anywhere}.control-deck #interact{flex-shrink:0}
+.control-deck #touch{position:static;flex-shrink:0}.volume-control{display:flex;align-items:center;gap:5px;color:#557661}.volume-control input{width:64px;accent-color:#558771;cursor:pointer}
+@media(max-width:850px){header{flex-wrap:wrap;gap:10px}.control-deck{padding:10px 12px}.volume-control input{width:48px}}
+@media(max-width:600px){.control-deck{padding:8px}.control-deck #interaction{padding:9px 12px}.bottom-bar>span:first-child{font-size:0}.bottom-bar>span:first-child:after{font-size:10px}nav{flex-wrap:wrap}}

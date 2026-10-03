@@ -28,6 +28,8 @@ const tasks=[
  {id:'rest',title:'交接之后，给自己充电',tip:'打电话请帮手接班，门边完成交接，再到沙发休息。',lesson:'自己也需要休息。具体求助和清楚交接，让照护可以持续。'}
 ];
 let state,player,path=[],keys=new Set(),running=false,paused=true,ended=false,action=null,last=0;
+const music=window.NightMusic?new window.NightMusic():null;
+if(music)music.onUnavailable=()=>{$('#music').textContent='配乐不可用';$('#music').setAttribute('aria-pressed','false');};
 let speechUntil=0,toastUntil=0,sound=false,audio=null,hover=null,target=null,frame=0;
 const itemNames={bear:'🧸 小熊',pillow:'▱ 枕头',water:'🥛 温水',meal:'🍲 餐食',clothes:'🧺 待洗衣物'};
 function reset(){
@@ -41,9 +43,9 @@ function beep(type='good'){
  try{audio??=new (window.AudioContext||window.webkitAudioContext)();audio.resume();const o=audio.createOscillator(),g=audio.createGain();o.connect(g);g.connect(audio.destination);o.type='sine';o.frequency.setValueAtTime(type==='good'?660:440,audio.currentTime);o.frequency.exponentialRampToValueAtTime(type==='good'?880:330,audio.currentTime+.15);g.gain.setValueAtTime(.055,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.25);o.start();o.stop(audio.currentTime+.26);}catch{}
 }
 function finishTask(id){if(state.done[id])return;state.done[id]=true;state.calm=Math.min(100,state.calm+8);beep();toast('✓ '+tasks.find(t=>t.id===id).title);renderHUD();if(Object.keys(state.done).length===tasks.length)setTimeout(()=>{if(!ended)endNight(true)},1000);}
-function show(html){keys.clear();path=[];paused=true;$('#pause').textContent='继续';$('#overlay-content').innerHTML=html;$('#overlay').showModal();}
-function close(){ $('#overlay').close();if(!ended){paused=false;last=performance.now();$('#pause').textContent='暂停';canvas.focus();} }
-function intro(){show(`<div class="eyebrow">DAD ON NIGHT DUTY · 第一章</div><h1>宝宝回家了。<br>今晚，你来接一班。</h1><p>晚上九点，妈妈刚坐下来，宝宝还在她怀里。床边有没收好的物品，厨房还没收拾，亲友的消息也一个接一个。</p><p>走进房间，拿起东西，完成交接。没有选择题，只有你接下来要做的事。</p><div class="features"><div><b>⌨</b>方向键 / WASD 移动</div><div><b>✋</b>E / 空格互动</div><div><b>↗</b>点击物品自动走近</div></div><p>手机可点地面移动，也可用屏幕方向键。每晚约 6 分钟；可暂停、提前结束、重新挑战。节奏与状态都是虚构的，不模拟真实医疗风险。</p><button class="primary" id="begin">好，今晚我来。 →</button>`);$('#begin').onclick=()=>{reset();close();speak('妈妈：「先帮宝宝把小床整理好吧。东西放在哪里，你来安排。」',9);};}
+function show(html){keys.clear();path=[];paused=true;music?.setPlaying(false);$('#pause').textContent='继续';$('#overlay-content').innerHTML=html;$('#overlay').showModal();}
+function close(){ $('#overlay').close();if(!ended){paused=false;music?.setPlaying(running);last=performance.now();$('#pause').textContent='暂停';canvas.focus();} }
+function intro(){show(`<div class="eyebrow">DAD ON NIGHT DUTY · 第一章</div><h1>宝宝回家了。<br>今晚，你来接一班。</h1><p>晚上九点，妈妈刚坐下来，宝宝还在她怀里。床边有没收好的物品，厨房还没收拾，亲友的消息也一个接一个。</p><p>走进房间，拿起东西，完成交接。没有选择题，只有你接下来要做的事。</p><div class="features"><div><b>⌨</b>方向键 / WASD 移动</div><div><b>✋</b>E / 空格互动</div><div><b>↗</b>点击物品自动走近</div></div><p>手机可点地面移动，也可用屏幕方向键。每晚约 6 分钟；可暂停、提前结束、重新挑战。节奏与状态都是虚构的，不模拟真实医疗风险。开始后播放轻柔夜曲，可在顶部关闭配乐或调整音量。</p><button class="primary" id="begin">好，今晚我来。 →</button>`);$('#begin').onclick=()=>{reset();close();speak('妈妈：「先帮宝宝把小床整理好吧。东西放在哪里，你来安排。」',9);};}
 function blocked(x,y){return x<30||x>970||y<30||y>590||walls.some(r=>x>r.x-13&&x<r.x+r.w+13&&y>r.y-13&&y<r.y+r.h+13);}
 function cell(x,y){return [Math.max(1,Math.min(48,Math.floor(x/GRID))),Math.max(1,Math.min(29,Math.floor(y/GRID)))];}
 function findPath(x,y){
@@ -241,7 +243,9 @@ $('#help-route').onclick=()=>{if(paused||ended)return;const s=stations.find(s=>s
 function pauseGame(){if(!running||ended)return;show('<div class="eyebrow">TAKE A BREATH</div><h1>先喘口气。</h1><p>游戏时间已暂停。准备好了，再回来接这一班。</p><button class="primary" id="resume">继续今晚 →</button>');$('#resume').onclick=close;}
 $('#pause').onclick=pauseGame;
 $('#finish').onclick=()=>{if(!running||ended)return;show('<h1>现在结束这一晚？</h1><p>会保留本次完成的小事并展示回顾。也可以继续挑战剩余任务。</p><button class="primary" id="end-confirm">结束并回顾</button><button class="secondary" id="resume">继续这一晚</button>');$('#end-confirm').onclick=()=>{$('#overlay').close();endNight(false)};$('#resume').onclick=close;};
-$('#sound').onclick=()=>{sound=!sound;$('#sound').textContent='声音：'+(sound?'开':'关');beep();};
+$('#music').onclick=()=>{if(!music)return;music.setEnabled(!music.enabled);$('#music').textContent='配乐：'+(music.enabled?'开':'关');$('#music').setAttribute('aria-pressed',String(music.enabled));};
+$('#music-volume').oninput=e=>music?.setVolume(Number(e.target.value)/100);
+$('#sound').onclick=()=>{sound=!sound;$('#sound').textContent='音效：'+(sound?'开':'关');$('#sound').setAttribute('aria-pressed',String(sound));beep();};
 $('#guide').onclick=()=>{show(`<div class="eyebrow">HOW TO PLAY</div><h1>你来决定下一步。</h1><p>方向键或 WASD 移动。靠近物品后按 E / 空格，或点「互动」。点击场景物品可以自动走近，再次点击可操作。手机也可以用屏幕方向键。</p><p>操作需要几秒；移动会取消操作。一次只携带一件物品，抱着宝宝时要专注照护。宝宝在换护垫上时，必须完成换护才能离开。点击「带我去当前任务」可查看路线。</p><p>电话、门铃、洗衣机和帮手会在过程中触发。等待洗衣或帮手时，可以先做其他事情。游戏最多六分钟，随时可暂停或结束回顾。</p><p>精力和安定度是叙事反馈，不是健康指标。不会因为操作慢而模拟伤害。安全睡眠要点参考 <a href="https://www.nhs.uk/best-start-in-life/baby/baby-basics/newborn-and-baby-sleeping-advice-for-parents/safe-sleep-advice-for-babies/" target="_blank" rel="noopener">NHS 安全睡眠指南</a>；其他资料见知识练习。</p><button class="primary" id="resume">${running?'返回游戏':'返回开场'} →</button>`);$('#resume').onclick=()=>{if(running)close();else{$('#overlay').close();intro();}};};
 $('#overlay').addEventListener('cancel',e=>{e.preventDefault();if(running&&!ended)close();});
 reset();running=false;intro();requestAnimationFrame(loop);

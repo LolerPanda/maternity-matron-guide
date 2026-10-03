@@ -30,14 +30,15 @@ const tasks=[
 let state,player,path=[],keys=new Set(),running=false,paused=true,ended=false,action=null,last=0;
 const music=window.NightMusic?new window.NightMusic():null;
 if(music)music.onUnavailable=()=>{$('#music').textContent='配乐不可用';$('#music').setAttribute('aria-pressed','false');};
-let speechUntil=0,toastUntil=0,sound=false,audio=null,hover=null,target=null,frame=0;
+let sound=false,audio=null,hover=null,target=null,frame=0;
 const itemNames={bear:'🧸 小熊',pillow:'▱ 枕头',water:'🥛 温水',meal:'🍲 餐食',clothes:'🧺 待洗衣物'};
 function reset(){
  state={elapsed:0,energy:100,calm:75,held:null,baby:'mother',hazards:['bear','pillow'],done:{},change:0,visitor:false,visitorAt:0,phone:false,phoneHandled:false,helper:false,helperETA:null,helperArrived:false,washer:null,walked:0,breaks:0,interrupts:0};
+ $('#toast').textContent='行动反馈会显示在这里。';
  player={x:611,y:235,face:1,step:0};path=[];keys.clear();action=null;target=null;ended=false;running=true;last=performance.now();renderHUD();
 }
-function speak(text,duration=7){$('#speech').textContent=text;$('#speech').classList.add('show');speechUntil=performance.now()+duration*1000;}
-function toast(text){$('#toast').textContent=text;$('#toast').classList.add('show');toastUntil=performance.now()+3300;}
+function speak(text,duration=7){$('#speech').textContent=text;$('#speech').classList.add('show');}
+function toast(text){$('#toast').textContent=text;$('#toast').classList.add('show');}
 function beep(type='good'){
  if(!sound)return;
  try{audio??=new (window.AudioContext||window.webkitAudioContext)();audio.resume();const o=audio.createOscillator(),g=audio.createGain();o.connect(g);g.connect(audio.destination);o.type='sine';o.frequency.setValueAtTime(type==='good'?660:440,audio.currentTime);o.frequency.exponentialRampToValueAtTime(type==='good'?880:330,audio.currentTime+.15);g.gain.setValueAtTime(.055,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.25);o.start();o.stop(audio.currentTime+.26);}catch{}
@@ -229,7 +230,7 @@ function draw(){
  if(state?.phone){text('♪',892,79+Math.sin(frame/8)*3,18,'#b97c40');}
  if(paused&&running&&!ended){ctx.fillStyle='#1c372411';ctx.fillRect(0,0,W,H);}
 }
-function loop(now){const dt=Math.min(.04,(now-last)/1000||0);last=now;frame++;update(dt);draw();if(now>speechUntil)$('#speech').classList.remove('show');if(now>toastUntil)$('#toast').classList.remove('show');requestAnimationFrame(loop);}
+function loop(now){const dt=Math.min(.04,(now-last)/1000||0);last=now;frame++;update(dt);draw();requestAnimationFrame(loop);}
 const mappings={w:'up',ArrowUp:'up',s:'down',ArrowDown:'down',a:'left',ArrowLeft:'left',d:'right',ArrowRight:'right'};
 window.addEventListener('keydown',e=>{if(e.target.closest('dialog'))return;if(mappings[e.key]){e.preventDefault();keys.add(mappings[e.key]);}if((e.key.toLowerCase()==='e'||e.code==='Space')&&e.target===canvas){e.preventDefault();if(!e.repeat)interact();}});
 window.addEventListener('keyup',e=>keys.delete(mappings[e.key]));window.addEventListener('blur',()=>keys.clear());

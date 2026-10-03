@@ -11,3 +11,12 @@
 .control-deck #touch{position:static;flex-shrink:0}.volume-control{display:flex;align-items:center;gap:5px;color:#557661}.volume-control input{width:64px;accent-color:#558771;cursor:pointer}
 @media(max-width:850px){header{flex-wrap:wrap;gap:10px}.control-deck{padding:10px 12px}.volume-control input{width:48px}}
 @media(max-width:600px){.control-deck{padding:8px}.control-deck #interaction{padding:9px 12px}.bottom-bar>span:first-child{font-size:0}.bottom-bar>span:first-child:after{font-size:10px}nav{flex-wrap:wrap}}
+
+/* The canvas contains only the world. Dialogue, feedback and inventory live below it. */
+.message-panel{padding:12px 18px 8px;background:#f5f3e7;border-top:1px solid #d4d7c5}
+.message-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#68806d;font-size:10px;letter-spacing:1px;margin-bottom:6px}
+.message-panel #carry{position:static;inset:auto;background:#e3e9da;color:#45644f;padding:4px 9px;font-size:10px;border-radius:6px;letter-spacing:0}
+.message-panel #speech,.message-panel #toast{position:static;inset:auto;transform:none;width:auto;max-width:none;opacity:1;transition:none;pointer-events:auto;box-shadow:none;border:0;border-radius:0;text-align:left;overflow-wrap:anywhere}
+.message-panel #speech{background:transparent;color:#304f43;padding:4px 0;min-height:50px;font-size:13px;line-height:1.7}
+.message-panel #toast{background:transparent;color:#7a6846;padding:4px 0;min-height:30px;font-size:11px;line-height:1.7}
+@media(max-width:600px){.message-panel{padding:10px 12px 6px}.message-panel #speech{font-size:12px;min-height:68px}.message-panel #toast{min-height:44px}}

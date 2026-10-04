@@ -12,3 +12,14 @@ test('complete trip reachable using only throttle, brake and steering inputs',()
 test('high-speed cornering spends comfort while low-speed turning does not',()=>{const G=engine();let low={...G.initial(),speed:1,wheel:.55},fast={...G.initial(),speed:15,wheel:.55};low=G.step(low,{steer:1},.025);fast=G.step(fast,{steer:1},.025);assert.equal(low.comfort,100);assert.ok(fast.comfort<100);assert.ok(fast.lateral>G.challenge.lateral);});
 test('budget and deadline end challenge, practice can resume without resetting position',()=>{const G=engine();let s=G.step({...G.initial(),time:479.99},{},.025);assert.equal(s.failed,'time');const frozen=G.step(s,{gas:true},.025);assert.equal(frozen.time,s.time);s=G.practice(s);s=G.step(s,{gas:true},.025);assert.equal(s.failed,null);assert.ok(s.time>480);let low=G.step({...G.initial(),comfort:.001,speed:15,wheel:.55},{steer:1},.025);assert.equal(low.failed,'comfort');});
 test('bump rewards slowing, cones block occupied lane, crossing waits without harming pedestrians',()=>{const G=engine();function at(d,lane=22){const p=G.offset(d,lane);return {...G.initial(),d,lane,x:p.x,y:p.y,heading:p.angle};}let a=G.step({...at(699.8),speed:3},{},.05),b=G.step({...at(699.8),speed:8},{},.05);assert.equal(a.comfort,100);assert.equal(b.comfort,82);let cone=G.step({...at(1484),speed:12},{gas:true},.05);assert.equal(cone.speed,0);assert.ok(cone.comfort<100);let walker=G.step({...at(2399.8),speed:3,eventStart:0,time:2},{gas:true},.05);assert.ok(walker.d<2400);assert.equal(walker.speed,0);walker=G.step({...walker,time:13},{gas:true},.05);assert.ok(walker.d>2399.8);});
+
+test('NPCs yield in both lanes, queue without overlap, and resume without teleporting',()=>{
+ const G=engine(),p=G.offset(2200,22);let s={...G.initial(),x:p.x,y:p.y,d:2200,heading:p.angle,eventStart:0,vehicles:[{d:2350,velocity:18},{d:2350,velocity:13},{d:2295,velocity:16},{d:2295,velocity:14}]};
+ for(let i=0;i<470;i++){const before=G.cars(s);s=G.step(s,{},.025);const cars=G.cars(s);for(const c of cars){assert.ok(c.d<=2364);assert.ok(c.d>=before[c.id].d);assert.ok(c.d-before[c.id].d<=c.speed*.025+.001);}assert.ok(cars[0].d-cars[2].d>=48);assert.ok(cars[1].d-cars[3].d>=48);}
+ const saved=JSON.parse(JSON.stringify(s));assert.deepEqual(JSON.stringify(G.cars(saved)),JSON.stringify(G.cars(s)));
+ s=ticks(G,s,{},280);assert.ok(G.cars(s)[0].d>2415);assert.ok(G.cars(s)[1].d>2415);
+});
+test('pedestrians wait for vehicles already occupying the crossing to clear',()=>{
+ const G=engine(),p=G.offset(2200,22);let s={...G.initial(),x:p.x,y:p.y,d:2200,heading:p.angle,vehicles:[{d:2405,velocity:18},{d:2350,velocity:13},{d:2250,velocity:16},{d:2250,velocity:14}]};
+ s=G.step(s,{},.025);assert.equal(s.eventStart,null);s=ticks(G,s,{},160);assert.notEqual(s.eventStart,null);assert.ok(G.cars(s)[0].d>=2450);assert.ok(G.cars(s)[1].d<=2364);
+});

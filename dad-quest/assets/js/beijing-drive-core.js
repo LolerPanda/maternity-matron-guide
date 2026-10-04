@@ -13,7 +13,28 @@ function initial(){const p=offset(0,22);return {version:3,mode:'challenge',comfo
 function recover(s){const p=offset(s.d,22);return {...s,x:p.x,y:p.y,heading:p.angle,wheel:0,speed:0,lane:22,cooldown:2,notice:'已由你请求扶正。道路不会自动替你转弯。'};}
 function zone(s){return marks.filter(m=>s.d>=m.at).at(-1)||marks[0];}
 function red(light,time){return (time+light.offset)%light.period<light.red;}
-function cars(s){return traffic.map((c,i)=>({...c,id:i,d:(()=>{let d=(c.start+c.speed*s.time)%(length-550)+300;if(d<s.d&&s.d-d<80&&Math.abs(c.lane-s.lane)<20)d=Math.min(d,s.d-48);return d;})()}));}
+// Persist traffic positions: stopping must not be undone by the global clock.
+function cars(s){return traffic.map((c,i)=>({...c,id:i,...(s.vehicles?.[i]||{d:c.start+300,velocity:c.speed})}));}
+function advanceTraffic(s,n,dt){
+ const current=cars(s), crossing=2400, stop=crossing-36;
+ const waiting=n.d>=2170&&n.eventStart===null;
+ const walking=n.eventStart!==null&&n.time-n.eventStart<12;
+ const moved=new Map();
+ for(const c of [...current].sort((a,b)=>b.d-a.d)){
+  let barrier=Infinity;
+  if((waiting||walking)&&c.d<=stop)barrier=stop;
+  for(const other of moved.values())if(Math.abs(other.lane-c.lane)<20&&other.d>=c.d)barrier=Math.min(barrier,other.d-48);
+  if(n.d>c.d&&Math.abs(n.lane-c.lane)<20)barrier=Math.min(barrier,n.d-48);
+  for(const light of signals)if(red(light,n.time)&&c.d<=light.at-30)barrier=Math.min(barrier,light.at-30);
+  const gap=Math.max(0,barrier-c.d),desired=Math.min(c.speed,Math.sqrt(2*12*gap));
+  let velocity=Math.max(0,Math.min(desired,c.velocity+6*dt));
+  let d=c.d+velocity*dt;
+  if(d>=barrier){d=Math.max(c.d,barrier);velocity=0;}
+  if(d>length+80&&!current.some(o=>o.id!==c.id&&Math.abs(o.lane-c.lane)<20&&o.d<380)&&!(n.d<380&&Math.abs(n.lane-c.lane)<20)){d=300;velocity=0;}
+  moved.set(c.id,{...c,d,velocity});
+ }
+ n.vehicles=current.map(c=>{const next=moved.get(c.id);return {d:next.d,velocity:next.velocity};});
+}
 const challenge={seconds:480,lateral:2.8};
 const hazards=[{id:'bump',at:700,end:730,title:'前方减速带',hint:'提前松油门，以游戏速度 12 km/h 以下通过。'},{id:'cones',at:1500,end:1580,title:'右侧临时施工',hint:'提前减速并向左绕过锥桶，驶过后再回正。'},{id:'crossing',at:2400,end:2415,title:'临时行人通道',hint:'停在停止线前，等待行人通过后再起步。'}];
 function activeEvent(s){return hazards.find(h=>s.d>=h.at-230&&s.d<h.end+25)||null;}
@@ -30,6 +51,9 @@ function step(s,input,dt){
  if(p.distance>43){n.x=s.x;n.y=s.y;n.speed=0;p=project(n.x,n.y);if(!n.cooldown){n.bumps++;n.cooldown=2;n.notice='碰到路肩了。可以倒车调整方向，或使用扶正按钮。';}}
  n.d=p.d;n.lane=p.lane;
  for(const l of signals){if(s.d<l.at&&n.d>=l.at&&red(l,n.time)&&!n.passed.includes(l.at)){n.reds++;n.passed.push(l.at);n.notice='刚才越过红灯停止线，下个路口提前制动。';}}
+ // Let cars already on the crossing clear it before pedestrians enter.
+ if(n.eventStart===null&&n.d>=2170&&!cars(s).some(c=>c.d>2364&&c.d<2450))n.eventStart=n.time;
+ advanceTraffic(s,n,dt);
  for(const c of cars(n)){const q=offset(c.d,c.lane);if(Math.hypot(n.x-q.x,n.y-q.y)<26&&!n.cooldown){n.x=s.x;n.y=s.y;n.speed=0;n.bumps++;n.cooldown=2;const back=project(n.x,n.y);n.d=back.d;n.lane=back.lane;n.notice='与前车接触。刹车，留出距离再调整方向。';}}
  if(Math.abs(n.speed)*3.6>zone(n).limit+3)n.over+=dt;
  n.lateral=Math.abs(n.speed*yaw);
@@ -37,7 +61,6 @@ function step(s,input,dt){
  if(input.brake&&Math.abs(s.speed)>8)cost+=dt*1.6;
  if(Math.abs(n.speed)*3.6>zone(n).limit+3)cost+=dt*.5;
  cost+=(n.bumps-s.bumps)*18+(n.reds-s.reds)*12;
- if(n.eventStart===null&&n.d>=2170)n.eventStart=n.time;
  const cones=hazards[1];
  if(n.d>cones.at-15&&n.d<cones.end+15&&n.lane>1){n.x=s.x;n.y=s.y;n.speed=0;const q=project(n.x,n.y);n.d=q.d;n.lane=q.lane;if(!n.cooldown){n.cooldown=2;cost+=14;n.notice='右侧锥桶挡路。停车，倒车留出转向空间，再从左侧绕行。';}}
  if(s.d<2400&&n.d>=2400&&n.eventStart!==null&&n.time-n.eventStart<12){n.x=s.x;n.y=s.y;n.speed=0;const q=project(n.x,n.y);n.d=q.d;n.lane=q.lane;if(!n.cooldown){n.cooldown=2;cost+=10;n.notice='行人尚未通过。车辆已被游戏拦停，请在线前等待。';}}

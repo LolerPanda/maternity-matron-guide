@@ -1,5 +1,7 @@
 # 围产家庭支持工具 / Maternity & New Parent Toolkit
 
+**临产出发已重制：[雨夜，去医院](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/route.html)**。两张地图、整段路线规划、动态封路与缓行、院区夜间入口和遮雨路线、电梯寻路；到院后找到产科接待才完成。支持行进暂停、路口存档和实际路线回顾。
+
 **[爸爸练习生 · 十章中文游戏合集](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/series.html)**
 
 已实现从孕晚期到产后支持的十种挑战：行李拼图、路线应变、医院陪产、出院交接、家庭夜班、轮班排程、环境安抚、来访分流、求助通讯、支持网络。新增八章采用不同操作机制，可自由选章、自动保存，不要求重复刷关。
@@ -65,6 +67,7 @@ maternity-matron-guide/
 ├── README.md                       # 中文仓库说明
 ├── README.en.md                    # English repository guide
 ├── dad-quest/
+│   ├── route.html                  # 临产出发重制：城市与院区
 │   ├── series.html                 # 十章中文成长地图
 │   ├── adventure.html              # 八款新互动章节
 │   ├── docs/SERIES_PLAN.md          # 场景规划与玩法分工

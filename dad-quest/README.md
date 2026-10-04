@@ -1,5 +1,7 @@
 # 爸爸练习生 · 围产成长地图
 
+**临产出发已重制：[雨夜，去医院](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/route.html)**。两张地图、整段路线规划、动态封路与缓行、院区夜间入口和遮雨路线、电梯寻路；到院后找到产科接待才完成。支持行进暂停、路口存档和实际路线回顾。
+
 [直接在线游玩：十章中文游戏合集](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/series.html)
 
 从孕晚期到产后持续支持，每章一种主要玩法：**行李拼图、路线应变、医院陪产、出院交接、家庭夜班、轮班排程、环境安抚、来访分流、求助通讯、支持网络**。保留两款场景模拟，新增八款独立互动游戏。所有章节开放，无需刷关或连续登录。
@@ -11,12 +13,15 @@
 ```text
 dad-quest/
 ├── series.html                 # 十章地图与完成标记
-├── adventure.html              # 八个新章节的独立入口
+├── route.html                  # 重制的临产出发：城市与院区
+├── adventure.html              # 其他七个新增章节入口
 ├── index.html / labor.html     # 家庭夜班 / 医院陪产
 ├── practice.html / en.html     # 中文 / 英文知识练习
 ├── docs/SERIES_PLAN.md          # 场景覆盖与玩法分工
 ├── assets/css/series.css        # 合集和八章的响应式布局
 ├── assets/js/series-data.js     # 章节与参考资料
+├── assets/js/departure-core.js  # 重制出发：路线、事件和存储校验
+├── assets/js/departure.js       # 行进动画、暂停、院区与行程回顾
 ├── assets/js/series-core.js     # 拼图规则、校验和本地存储
 ├── assets/js/series-hub.js      # 地图与进度展示
 ├── assets/js/episodes.js        # 八种互动玩法
@@ -24,7 +29,7 @@ dad-quest/
 └── tests/                      # 规则、流程、内容与音乐回归测试
 ```
 
-新章节使用 `dad-series-v1` 保存过程及完成标记，旧游戏存储键不变。清理浏览器数据会清空进度；没有账号、云同步或联网对战。存储不可用时仍可游玩，但无法在关闭后恢复。
+临产出发重制用 `dad-departure-v2` 保存行程；其他新章节使用 `dad-series-v1` 保存过程及完成标记，旧游戏存储键不变。清理浏览器数据会清空进度；没有账号、云同步或联网对战。存储不可用时仍可游玩，但无法在关闭后恢复。
 
 ---
 

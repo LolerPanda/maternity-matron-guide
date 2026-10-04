@@ -2,7 +2,9 @@
 (() => {
 'use strict';
 const C=window.DadSeries, $=id=>document.getElementById(id);
-const id=new URLSearchParams(location.search).get('chapter'), meta=DAD_CHAPTERS.find(c=>c.id===id&&!c.href);
+const id=new URLSearchParams(location.search).get('chapter');
+if(id==='route'){location.replace('route.html');return;}
+const meta=DAD_CHAPTERS.find(c=>c.id===id&&!c.href);
 if(!meta){$('title').textContent='这一章还没有收录';$('description').textContent='请回到成长地图选择章节。';$('board').innerHTML='<a href="series.html">返回成长地图</a>';return;}
 let s=C.load(id), done=false, musicOn=false;
 const music=new NightMusic();music.setEnabled(false);
@@ -51,13 +53,6 @@ const views={
   toolButtons(C.packs.map(p=>({...p,label:p.name+(s.placed.some(q=>q.id===p.id)?' ✓':'')})),s.selected,k=>{s.selected=k;s.rot=false;update();});
   $('rotate').onclick=()=>{s.rot=!s.rot;update('已旋转；选择放置位置。');};
   bind('cell',i=>{const x=+i%6,y=Math.floor(+i/6),old=s.placed.find(p=>{const[w,h]=C.dimensions(p.id,p.rot);return x>=p.x&&x<p.x+w&&y>=p.y&&y<p.y+h;});if(old){s.placed=s.placed.filter(p=>p.id!==old.id);s.selected=old.id;s.rot=old.rot;return update('已取出，可以重新摆放。');}const next=C.placePack(s.placed,s.selected,x,y,s.rot);if(!next)return say('这里放不下：试着旋转，或选择更靠左上方的位置。');s.placed=next;const remaining=C.packs.find(p=>!next.some(q=>q.id===p.id));if(remaining){s.selected=remaining.id;s.rot=false;}update('放好了。');if(next.length===6)finish();});
- },
- route(){
-  status(s.contact?'联络已确认 · 正在前往':'出发前，先联络');
-  const lines=C.edges.map(([a,b])=>{const p=C.nodes.find(n=>n.id===a),q=C.nodes.find(n=>n.id===b),closed=s.closed&&a==='a'&&b==='c';return `<line x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke="${closed?'#b76e51':'#b3c3a8'}" stroke-width="2" ${closed?'stroke-dasharray="2 2"':''}/>`;}).join('');
-  $('board').innerHTML=`<p class="board-note">虚构路线：这次已经收到到院安排。若有紧急情况，请联系当地急救，勿用此图安排真实出行。</p><div class="route-board"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${lines}</svg>${C.nodes.map(n=>`<button data-node="${n.id}" style="left:${n.x}%;top:${n.y}%" class="route-node ${s.route.at(-1)===n.id?'current':s.route.includes(n.id)?'visited':''}" ${!s.contact?'disabled':''}>${n.name}${s.route.at(-1)===n.id?' ●':''}</button>`).join('')}</div><p class="legend">● 橙色：你的位置 · ${s.closed?'红色虚线：北路口—河桥临时封闭':'沿相连道路前往产科接待'}</p>`;
-  toolButtons([{id:'contact',name:s.contact?'✓ 已确认本次到院安排':'联系产科，确认到院安排',disabled:s.contact}],null,()=>{s.contact=true;update('模拟联络完成：按本次医护安排前往医院。点击相邻路口出发。');});
-  bind('node',k=>{if(!s.contact)return;const next=C.routeMove(s.route,k,s.closed);if(!next)return say('这条路不相连，或已经封闭。请选择相邻的开放道路。');s.route=next;const newly=!s.closed;s.closed=true;update(newly?'路况更新：北路口至河桥封闭。观察地图，改走备用路线。':'已抵达 '+C.nodes.find(n=>n.id===k).name+'。');if(k==='unit')finish();});
  },
  handover(){
   status(`${Object.keys(s.slots).length} / 4 项交接`);

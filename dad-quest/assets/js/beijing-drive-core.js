@@ -9,13 +9,17 @@ const traffic=[{start:720,lane:-22,speed:18,color:'#c49966'},{start:1240,lane:23
 function offset(d,lane){const p=sample(d);return {...p,x:p.x-Math.sin(p.angle)*lane,y:p.y+Math.cos(p.angle)*lane};}
 function wrap(a){return Math.atan2(Math.sin(a),Math.cos(a));}
 function project(x,y){let best=null;for(const q of segments){const vx=q.b[0]-q.a[0],vy=q.b[1]-q.a[1],t=Math.max(0,Math.min(1,((x-q.a[0])*vx+(y-q.a[1])*vy)/(q.length*q.length))),px=q.a[0]+vx*t,py=q.a[1]+vy*t,dist=Math.hypot(x-px,y-py);if(!best||dist<best.distance)best={d:q.start+t*q.length,lane:-(x-px)*Math.sin(q.angle)+(y-py)*Math.cos(q.angle),distance:dist,angle:q.angle};}return best;}
-function initial(){const p=offset(0,22);return {version:2,x:p.x,y:p.y,heading:p.angle,wheel:0,d:0,lane:22,speed:0,time:0,jerk:0,bumps:0,reds:0,over:0,parkTime:0,done:false,checkpoint:0,cooldown:0,passed:[],notice:'现在需要亲自转弯。低速起步，入弯前减速，松开方向键让前轮回正。'};}
+function initial(){const p=offset(0,22);return {version:3,mode:'challenge',comfort:100,lateral:0,failed:null,eventStart:null,events:[],x:p.x,y:p.y,heading:p.angle,wheel:0,d:0,lane:22,speed:0,time:0,jerk:0,bumps:0,reds:0,over:0,parkTime:0,done:false,checkpoint:0,cooldown:0,passed:[],notice:'现在需要亲自转弯。低速起步，入弯前减速，松开方向键让前轮回正。'};}
 function recover(s){const p=offset(s.d,22);return {...s,x:p.x,y:p.y,heading:p.angle,wheel:0,speed:0,lane:22,cooldown:2,notice:'已由你请求扶正。道路不会自动替你转弯。'};}
 function zone(s){return marks.filter(m=>s.d>=m.at).at(-1)||marks[0];}
 function red(light,time){return (time+light.offset)%light.period<light.red;}
-function cars(s){return traffic.map((c,i)=>({...c,id:i,d:(c.start+c.speed*s.time)%(length-550)+300}));}
+function cars(s){return traffic.map((c,i)=>({...c,id:i,d:(()=>{let d=(c.start+c.speed*s.time)%(length-550)+300;if(d<s.d&&s.d-d<80&&Math.abs(c.lane-s.lane)<20)d=Math.min(d,s.d-48);return d;})()}));}
+const challenge={seconds:480,lateral:2.8};
+const hazards=[{id:'bump',at:700,end:730,title:'前方减速带',hint:'提前松油门，以游戏速度 12 km/h 以下通过。'},{id:'cones',at:1500,end:1580,title:'右侧临时施工',hint:'提前减速并向左绕过锥桶，驶过后再回正。'},{id:'crossing',at:2400,end:2415,title:'临时行人通道',hint:'停在停止线前，等待行人通过后再起步。'}];
+function activeEvent(s){return hazards.find(h=>s.d>=h.at-230&&s.d<h.end+25)||null;}
+function practice(s){return {...s,mode:'practice',failed:null,done:false,speed:0};}
 function step(s,input,dt){
- if(s.done)return {...s};dt=Math.min(.05,Math.max(0,dt));const n={...s,passed:[...s.passed],time:s.time+dt,cooldown:Math.max(0,s.cooldown-dt)};
+ if(s.done||s.failed)return {...s};dt=Math.min(.05,Math.max(0,dt));const n={...s,events:[...s.events],passed:[...s.passed],time:s.time+dt,cooldown:Math.max(0,s.cooldown-dt)};
  const target=Math.max(-1,Math.min(1,input.steer||0))*.55;
  n.wheel+=Math.max(-2.4*dt,Math.min(2.4*dt,target-s.wheel));
  if(input.brake){n.speed=Math.sign(s.speed)*Math.max(0,Math.abs(s.speed)-25*dt);}else if(input.gas){const desired=input.reverse?-5:76/3.6;n.speed=s.speed+Math.max(-10*dt,Math.min(10*dt,desired-s.speed));}else n.speed=Math.sign(s.speed)*Math.max(0,Math.abs(s.speed)-3*dt);
@@ -28,10 +32,22 @@ function step(s,input,dt){
  for(const l of signals){if(s.d<l.at&&n.d>=l.at&&red(l,n.time)&&!n.passed.includes(l.at)){n.reds++;n.passed.push(l.at);n.notice='刚才越过红灯停止线，下个路口提前制动。';}}
  for(const c of cars(n)){const q=offset(c.d,c.lane);if(Math.hypot(n.x-q.x,n.y-q.y)<26&&!n.cooldown){n.x=s.x;n.y=s.y;n.speed=0;n.bumps++;n.cooldown=2;const back=project(n.x,n.y);n.d=back.d;n.lane=back.lane;n.notice='与前车接触。刹车，留出距离再调整方向。';}}
  if(Math.abs(n.speed)*3.6>zone(n).limit+3)n.over+=dt;
+ n.lateral=Math.abs(n.speed*yaw);
+ let cost=Math.max(0,n.lateral-challenge.lateral)*dt*2;
+ if(input.brake&&Math.abs(s.speed)>8)cost+=dt*1.6;
+ if(Math.abs(n.speed)*3.6>zone(n).limit+3)cost+=dt*.5;
+ cost+=(n.bumps-s.bumps)*18+(n.reds-s.reds)*12;
+ if(n.eventStart===null&&n.d>=2170)n.eventStart=n.time;
+ const cones=hazards[1];
+ if(n.d>cones.at-15&&n.d<cones.end+15&&n.lane>1){n.x=s.x;n.y=s.y;n.speed=0;const q=project(n.x,n.y);n.d=q.d;n.lane=q.lane;if(!n.cooldown){n.cooldown=2;cost+=14;n.notice='右侧锥桶挡路。停车，倒车留出转向空间，再从左侧绕行。';}}
+ if(s.d<2400&&n.d>=2400&&n.eventStart!==null&&n.time-n.eventStart<12){n.x=s.x;n.y=s.y;n.speed=0;const q=project(n.x,n.y);n.d=q.d;n.lane=q.lane;if(!n.cooldown){n.cooldown=2;cost+=10;n.notice='行人尚未通过。车辆已被游戏拦停，请在线前等待。';}}
+ for(const h of hazards){if(n.d>=(h.id==='bump'?h.at:h.end)&&!n.events.some(e=>e.id===h.id)){const rough=h.id==='bump'&&Math.abs(n.speed)*3.6>12;if(rough)cost+=18;n.events.push({id:h.id,smooth:!rough});n.notice=rough?'过减速带时速度过快，平稳预算减少 18。':'已处理：'+h.title;}}
+ n.comfort=Math.max(0,s.comfort-cost);
+ if(n.mode==='challenge'){if(n.comfort<=0)n.failed='comfort';else if(n.time>=challenge.seconds)n.failed='time';}
  n.checkpoint=Math.max(s.checkpoint,n.d);
  const parking=n.d>=length-60&&n.d<=length-8&&n.lane>13&&n.lane<40&&Math.abs(wrap(n.heading-sample(length).angle))<.3;
- if(parking&&Math.abs(n.speed)<.3&&!input.gas){n.parkTime+=dt;if(n.parkTime>=2){n.done=true;n.notice='车身摆正，稳稳停好了。';}}else n.parkTime=0;
+ if(!n.failed&&parking&&Math.abs(n.speed)<.3&&!input.gas){n.parkTime+=dt;if(n.parkTime>=2){n.done=true;n.notice='车身摆正，稳稳停好了。';}}else n.parkTime=0;
  return n;
 }
-window.BeijingDrive={points,segments,length,sample,offset,project,wrap,recover,marks,signals,traffic,initial,zone,red,cars,step};
+window.BeijingDrive={challenge,hazards,activeEvent,practice,points,segments,length,sample,offset,project,wrap,recover,marks,signals,traffic,initial,zone,red,cars,step};
 })();

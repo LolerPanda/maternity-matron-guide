@@ -21,7 +21,7 @@ test('full birth-partner episode completes through objects, timing and clinical 
  // An early tap is a retry, never a completed response.
  g.click('#interact');assert.equal(g.inspect().state.hits,0);
  const before=g.inspect().state.rhythmTime;g.click('#pause');g.tick(8);assert.equal(g.inspect().state.rhythmTime,before);g.click('#resume');
- rhythm(g);const d=g.doTask;d('呼叫医护');g.tick(7);d('陪她提问');d('按她的意愿回复');d('约好探望时机');g.tick(.1);assert.equal(g.inspect().state.postpartum,true);d('拿起后续');d('与护士确认');d('坐回她身边');assert.equal(g.el('#task-count').textContent,'8 / 8');assert.ok(g.el('#overlay-content').innerHTML.includes('这一程，你一直在'));assert.equal(g.inspect().ended,true);
+ rhythm(g);const d=g.doTask;d('呼叫医护');g.tick(7);d('陪她提问');d('按她的意愿回复');d('约好探望时机');g.tick(.1);assert.equal(g.inspect().state.readyForBirth,true);d('拿起后续');d('与护士确认');d('坐回她身边');assert.equal(g.el('#task-count').textContent,'8 / 8');assert.ok(g.el('#overlay-content').innerHTML.includes('这一程，你一直在'));assert.equal(g.inspect().ended,true);
 });
 test('early end and time limit give partial recaps, replay resets state',()=>{
  const g=episode();g.click('#finish');g.click('#end-confirm');assert.ok(g.el('#overlay-content').innerHTML.includes('0/8'));g.click('#again');g.tick(481);assert.ok(g.el('#overlay-content').innerHTML.includes('这一程，先到这里'));assert.equal(g.inspect().ended,true);

@@ -56,6 +56,6 @@ function write(data){try{localStorage.setItem('dad-series-v1',JSON.stringify(dat
 function load(id){const s=read().sessions[id];return valid(id,s)?s:initial(id);}
 function save(id,s){const d=read();d.sessions[id]=s;write(d);}
 function complete(id){const d=read();d.complete[id]=true;write(d);}
-function finished(id){if(id==='night'||id==='labor'){try{return Number(localStorage.getItem(id==='night'?'dad-night-best':'dad-labor-best'))>=8}catch{return false;}}return read().complete[id]===true;}
+function finished(id){if(id==='birth'){try{return localStorage.getItem('dad-birth-complete')==='true';}catch{return false;}}if(id==='night'||id==='labor'){try{return Number(localStorage.getItem(id==='night'?'dad-night-best':'dad-labor-best'))>=8}catch{return false;}}return read().complete[id]===true;}
 window.DadSeries={packs,nodes,edges,shifts,people,needs,visitors,dimensions,placePack,routeMove,assignShift,shiftsSolved,linkNeed,initial,valid,load,save,complete,finished,storageOK:()=>storageOK};
 })();

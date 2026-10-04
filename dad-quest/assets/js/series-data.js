@@ -2,7 +2,8 @@
 window.DAD_CHAPTERS = [
 {id:'pack',stage:'孕晚期',name:'行李，不是越多越好',subtitle:'空间拼图',icon:'▦',minutes:'3–5',color:'#dfb990',desc:'旋转、摆放，把真正需要的东西装进有限空间。',mechanic:'旋转物件 · 网格装箱',lesson:'按医院清单准备，证件与紧急联系方式放在易取的位置。'},
 {id:'route',stage:'临产出发',name:'雨夜，去医院',subtitle:'动态行程',href:'route.html',icon:'⌁',minutes:'5–8',color:'#b2cbbf',desc:'规划整段行程，应对封路与缓行，再穿过雨夜院区找到接待团队。',mechanic:'动态路线 · 院区探索',lesson:'遵循产科给出的就诊安排；游戏交通不代表真实导航。'},
-{id:'labor',stage:'待产与分娩',name:'我在，你不用独自面对',subtitle:'角色陪伴',icon:'♡',minutes:'5–8',color:'#bed2cb',desc:'在医院走动、交接资料，以握手节奏回应她的需要。',mechanic:'场景探索 · 节奏互动',href:'labor.html',lesson:'支持她与医护沟通，不替她作出医疗选择。'},
+{id:'labor',stage:'入院与待产',name:'我在，你不用独自面对',subtitle:'角色陪伴',icon:'♡',minutes:'5–8',color:'#bed2cb',desc:'在医院走动、交接资料，以握手节奏回应她的需要。',mechanic:'场景探索 · 节奏互动',href:'labor.html',lesson:'支持她与医护沟通，不替她作出医疗选择。'},
+{id:'birth',stage:'分娩与初次见面',name:'迎接你',subtitle:'连续叙事互动',icon:'✦',minutes:'4–7',color:'#d9c2a0',desc:'从待产末段到第一次见面，整理空间、陪在床头，再接住出生后的需要。',mechanic:'空间互动 · 出生见证 · 持续照护',href:'birth.html',lesson:'陪伴贯穿出生前后，临床照护由医护负责。'},
 {id:'handover',stage:'住院与出院',name:'别把交接留给记忆',subtitle:'信息拼接',icon:'▤',minutes:'2–4',color:'#cdc6de',desc:'从交接资料里提取信息，补齐缺失记录，带着清楚的安排回家。',mechanic:'查阅档案 · 信息归档',lesson:'出院资料有缺漏时当面确认，不靠猜测补全。'},
 {id:'night',stage:'回家第一晚',name:'今晚，你来接一班',subtitle:'家庭模拟',icon:'☾',minutes:'4–6',color:'#d2d8b8',desc:'整理空间、递送物品、接手换护，最后交给帮手休息。',mechanic:'移动搬运 · 连续照护',href:'index.html',lesson:'照护需要具体行动，也需要清楚交接。'},
 {id:'shifts',stage:'产后第一周',name:'把休息排进生活',subtitle:'轮班排程',icon:'▥',minutes:'3–5',color:'#b9cbd8',desc:'把任务和休息放进时间表，利用帮手的可用时段。',mechanic:'时间格调度 · 约束解谜',lesson:'这是成人分工表，不是给新生儿规定喂养和睡眠时刻。'},

@@ -25,7 +25,7 @@ const tasks=[
 {id:'focus',title:'接住一段需要陪伴的时刻',tip:'回到她身边，跟随游戏光点完成三次握手回应。',lesson:'观察反馈、专注陪伴；小游戏节奏不对应宫缩或呼吸频率。'},
 {id:'privacy',title:'把外界的打扰接过去',tip:'在联络处回复亲友，再到门口安排安静探望。',lesson:'以她的意愿为前提，协调消息、拍摄和来访。'},
 {id:'advocate',title:'她改变主意时，帮她表达',tip:'听到镇痛咨询需求，按呼叫铃，再陪她与医护沟通。',lesson:'协助问清选择、表达意愿，不替伴侣决定医疗方案。'},
-{id:'handoff',title:'交接清楚，再坐回她身边',tip:'剧情转到产后交接，带记录找护士确认，再回来陪她。',lesson:'听清接下来的安排，并记住有需要时如何联系医护。'}
+{id:'handoff',title:'交接清楚，继续迎接宝宝',tip:'带着当前偏好与沟通记录找护士确认，再一起迎接分娩。',lesson:'听清接下来的安排，并记住有需要时如何联系医护。'}
 ];
 const itemNames={papers:'📄 入院资料',plan:'📒 陪产偏好',confirmedPlan:'📒 已确认的偏好',pillow:'▱ 靠枕',water:'🥛 饮水',notes:'📋 交接记录'};
 let state,player,path=[],keys=new Set(),action=null,paused=true,running=false,ended=false,last=0,frame=0,hover=null,target=null;
@@ -34,13 +34,13 @@ function say(s){$('#speech').textContent=s;}
 function tell(s){$('#toast').textContent=s;}
 function tone(good=true){if(!sound)return;try{audio??=new(window.AudioContext||window.webkitAudioContext)();audio.resume();const o=audio.createOscillator(),g=audio.createGain();o.connect(g);g.connect(audio.destination);o.frequency.value=good?660:330;g.gain.setValueAtTime(.04,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.2);o.start();o.stop(audio.currentTime+.22);}catch{}}
 function reset(){
- state={time:0,energy:100,held:null,done:{},drinkAllowed:false,contacted:false,request:false,called:false,nurseETA:0,nurseHere:false,recordConfirmed:false,postpartum:false,phoneRang:false,rhythm:false,rhythmTime:0,hits:0,cooldown:0,attempts:0,breaks:0};
+ state={time:0,energy:100,held:null,done:{},drinkAllowed:false,contacted:false,request:false,called:false,nurseETA:0,nurseHere:false,recordConfirmed:false,readyForBirth:false,phoneRang:false,rhythm:false,rhythmTime:0,hits:0,cooldown:0,attempts:0,breaks:0};
  player={x:216,y:320,step:0};path=[];keys.clear();target=null;action=null;ended=false;running=true;
  $('#rhythm-panel').hidden=true;tell('行动反馈会显示在这里。');renderHUD();last=performance.now();
 }
 function show(html){paused=true;keys.clear();path=[];music?.setPlaying(false);$('#pause').textContent='继续';$('#overlay-content').innerHTML=html;$('#overlay').showModal();}
 function close(){ $('#overlay').close();if(!ended){paused=false;last=performance.now();music?.setPlaying(running);$('#pause').textContent='暂停';canvas.focus();}}
-function intro(){show(`<div class="eyebrow">NEW EPISODE · BIRTH PARTNER</div><h1>我在，你不用<br>独自面对。</h1><p>你们已经到达医院。她需要一个能听见需求、拿好东西、及时帮她叫到医护的人。现在，接过待产包，走进这一程。</p><div class="scene-phases"><span>01 入院交接</span><span>02 准备与陪伴</span><span>03 表达需求</span><span>04 产后交接</span></div><p>WASD / 方向键移动，E / 空格互动。也可点击物品走近，再点「互动」。靠近她后会开启光点节奏挑战，在绿色区内按下「握手」。</p><p>本次最长八分钟，时间经过是虚构的。节奏游戏不是呼吸或分娩技巧教学；玩家的得分不会决定分娩方式或母婴结局。点击开始后播放轻柔配乐。</p><button class="primary" id="begin">一起进去吧 →</button><a class="episode-return" href="index.html">返回「回家第一晚」</a>`);$('#begin').onclick=()=>{reset();close();say('她：「先把资料交给护士吧。我的待产包就在那边，你帮我拿一下。」');};}
+function intro(){show(`<div class="eyebrow">NEW EPISODE · BIRTH PARTNER</div><h1>我在，你不用<br>独自面对。</h1><p>你们已经到达医院。她需要一个能听见需求、拿好东西、及时帮她叫到医护的人。现在，接过待产包，走进这一程。</p><div class="scene-phases"><span>01 入院交接</span><span>02 准备与陪伴</span><span>03 表达需求</span><span>04 分娩前交接</span></div><p>WASD / 方向键移动，E / 空格互动。也可点击物品走近，再点「互动」。靠近她后会开启光点节奏挑战，在绿色区内按下「握手」。</p><p>本次最长八分钟，时间经过是虚构的。节奏游戏不是呼吸或分娩技巧教学；玩家的得分不会决定分娩方式或母婴结局。点击开始后播放轻柔配乐。</p><button class="primary" id="begin">一起进去吧 →</button><a class="episode-return" href="index.html">返回「回家第一晚」</a>`);$('#begin').onclick=()=>{reset();close();say('她：「先把资料交给护士吧。我的待产包就在那边，你帮我拿一下。」');};}
 function done(id){if(state.done[id])return;state.done[id]=true;tone();tell('✓ '+tasks.find(t=>t.id===id).title);if(Object.keys(state.done).length===8)end(true);else renderHUD();}
 function blocked(x,y){return x<30||x>970||y<30||y>590||walls.some(r=>x>r.x-13&&x<r.x+r.w+13&&y>r.y-13&&y<r.y+r.h+13);}
 function findPath(x,y){const start=[Math.floor(player.x/20),Math.floor(player.y/20)],goal=[Math.floor(x/20),Math.floor(y/20)],q=[start],prev=new Map([[start.join(','),null]]);let i=0;if(blocked(goal[0]*20+10,goal[1]*20+10))return[];while(i<q.length){const c=q[i++];if(c[0]===goal[0]&&c[1]===goal[1])break;for(const d of [[0,1],[0,-1],[1,0],[-1,0]]){const n=[c[0]+d[0],c[1]+d[1]],k=n.join(',');if(!prev.has(k)&&!blocked(n[0]*20+10,n[1]*20+10)){prev.set(k,c);q.push(n);}}}if(!prev.has(goal.join(',')))return[];const out=[];let c=goal;while(c&&c.join(',')!==start.join(',')){out.unshift({x:c[0]*20+10,y:c[1]*20+10});c=prev.get(c.join(','));}return out;}
@@ -106,7 +106,7 @@ function operation(s){if(!s)return null;const a=(label,seconds,fn)=>({label,seco
   return no(state.nurseHere?'医护已在床旁，请一起听取解释':'已经呼叫，医护正在过来');
  }
  if(s.id==='notes'){
-  if(!state.postpartum)return no('先完成陪产协作，后续交接将在剧情推进后开启');
+  if(!state.readyForBirth)return no('先完成陪产协作，后续交接将在剧情推进后开启');
   if(state.held)return no('先把手里的资料送到护士站');
   if(state.recordConfirmed)return no('后续安排已与医护确认，回到她身边吧');
   return a('拿起后续照护交接记录',1.5,()=>state.held='notes');
@@ -132,7 +132,7 @@ function destination(){
  const t=tasks.find(t=>!state.done[t.id]);if(!t)return 'partner';
  return {arrival:'bag',plan:'bag',comfort:'cart',water:state.drinkAllowed?'water':'nurse',focus:'partner',privacy:state.contacted?'door':'phone',advocate:'bell',handoff:state.recordConfirmed?'partner':'notes'}[t.id];
 }
-function renderHUD(){if(!state)return;const n=Object.keys(state.done).length;$('#clock').textContent=state.postpartum?'产后交接':state.request?'表达需求':state.done.arrival?'准备与陪伴':'待产报到';$('#energy').style.width=state.energy+'%';$('#energy-num').textContent=Math.ceil(state.energy);$('#calm').style.width=n/8*100+'%';$('#calm-num').textContent=n+'/8';$('#task-count').textContent=n+' / 8';
+function renderHUD(){if(!state)return;const n=Object.keys(state.done).length;$('#clock').textContent=state.readyForBirth?'分娩前交接':state.request?'表达需求':state.done.arrival?'准备与陪伴':'待产报到';$('#energy').style.width=state.energy+'%';$('#energy-num').textContent=Math.ceil(state.energy);$('#calm').style.width=n/8*100+'%';$('#calm-num').textContent=n+'/8';$('#task-count').textContent=n+' / 8';
  const active=state.request&&!state.done.advocate?'advocate':tasks.find(t=>!state.done[t.id])?.id;
  $('#missions').innerHTML=tasks.map(t=>`<div class="mission ${state.done[t.id]?'done':active===t.id?'active':''}"><span class="circle">${state.done[t.id]?'✓':''}</span><div><strong>${t.title}</strong><small>${state.done[t.id]?'已完成':t.tip}</small></div></div>`).join('');
  const held=state.held?itemNames[state.held]:'双手空闲';$('#carry').textContent=held;$('#inventory').textContent=held;
@@ -142,7 +142,7 @@ function renderHUD(){if(!state)return;const n=Object.keys(state.done).length;$('
 function update(dt){if(paused||!running||ended)return;state.time+=dt;state.energy=Math.max(15,state.energy-dt*.045);state.cooldown=Math.max(0,state.cooldown-dt);
  if(state.time>25&&!state.phoneRang&&!state.contacted){state.phoneRang=true;say('手机亮了：家人想来探望。她希望先安静一些，你可以代为联系。');tone(false);}
  if(state.called&&!state.nurseHere){state.nurseETA-=dt;if(state.nurseETA<=0){state.nurseHere=true;say('医护到床边了。现在陪她把想问的问题说清楚，听取专业解释。');tone();}}
- if(Object.keys(state.done).length===7&&!state.postpartum){state.postpartum=true;say('【剧情转场】一段时间后，医护完成分娩照护，进入产后交接。实际产程与结局不由游戏得分决定。');tell('去交接记录台拿资料，与护士确认后续安排。');}
+ if(Object.keys(state.done).length===7&&!state.readyForBirth){state.readyForBirth=true;say('医护：“这一段准备已经完成。把当前需求与记录交接清楚，接下来我们继续陪她经历分娩。”');tell('去交接记录台拿资料，与护士确认后续安排。');}
  let dx=(keys.has('right')?1:0)-(keys.has('left')?1:0),dy=(keys.has('down')?1:0)-(keys.has('up')?1:0);
  if(dx||dy){path=[];stopAction();}else if(path.length){const p=path[0],d=Math.hypot(p.x-player.x,p.y-player.y);if(d<5)path.shift();else{dx=(p.x-player.x)/d;dy=(p.y-player.y)/d;}}
  if(dx||dy){const len=Math.hypot(dx,dy),speed=state.held==='water'?145:190;dx=dx/len*speed*dt;dy=dy/len*speed*dt;if(!blocked(player.x+dx,player.y))player.x+=dx;if(!blocked(player.x,player.y+dy))player.y+=dy;player.step+=dt*9;}
@@ -152,7 +152,7 @@ function update(dt){if(paused||!running||ended)return;state.time+=dt;state.energ
  if(frame%12===0)renderHUD();if(state.time>=480)end(false);
 }
 function end(complete){if(ended)return;ended=true;state.rhythm=false;$('#rhythm-panel').hidden=true;action=null;path=[];let best=Object.keys(state.done).length;try{best=Math.max(best,Number(localStorage.getItem('dad-labor-best')||0));localStorage.setItem('dad-labor-best',String(best));}catch{}
- show(`<div class="eyebrow">BIRTH PARTNER · 陪产回顾</div><h1>${complete?'这一程，你一直在。':'这一程，先到这里。'}</h1><p>支持不是替她作出每一个决定，而是在她需要时递出双手、表达需求、找来合适的帮助。</p><div class="features"><div><b>${Object.keys(state.done).length}/8</b>完成的协作</div><div><b>${state.hits}/3</b>专注回应</div><div><b>${best}/8</b>本机最佳完成数</div></div>${tasks.map(t=>`<div class="summary-item">${state.done[t.id]?'✓':'○'} ${t.title}<br><span>${t.lesson}</span></div>`).join('')}<p>本回顾不评定陪产能力，不对应真实分娩或健康结果。</p><button class="primary" id="again">再陪伴一程 →</button><a class="episode-return" href="index.html">接着玩「回家第一晚」 ↗</a>`);$('#again').onclick=()=>{reset();close();say('新的一程开始。这次，也可以重新安排准备与等待的顺序。');};
+ show(`<div class="eyebrow">BIRTH PARTNER · 陪产回顾</div><h1>${complete?'这一程，你一直在。':'这一程，先到这里。'}</h1><p>支持不是替她作出每一个决定，而是在她需要时递出双手、表达需求、找来合适的帮助。</p><div class="features"><div><b>${Object.keys(state.done).length}/8</b>完成的协作</div><div><b>${state.hits}/3</b>专注回应</div><div><b>${best}/8</b>本机最佳完成数</div></div>${tasks.map(t=>`<div class="summary-item">${state.done[t.id]?'✓':'○'} ${t.title}<br><span>${t.lesson}</span></div>`).join('')}<p>本回顾不评定陪产能力，不对应真实分娩或健康结果。</p><a class="episode-return" href="birth.html">继续「迎接你」：经历分娩与第一次见面 →</a><button class="primary" id="again">再陪伴一程 →</button>`);$('#again').onclick=()=>{reset();close();say('新的一程开始。这次，也可以重新安排准备与等待的顺序。');};
 }
 function box(x,y,w,h,r,fill,stroke){ctx.beginPath();ctx.roundRect(x,y,w,h,r);if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=2;ctx.stroke()}}
 function circle(x,y,r,color){ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();}
@@ -161,7 +161,7 @@ function text(t,x,y,size=12,color='#667f7a'){ctx.font=`${size}px system-ui,sans-
 function person(x,y,color,bounce=0){ctx.globalAlpha=.12;ctx.beginPath();ctx.ellipse(x,y+9,18,7,0,0,Math.PI*2);ctx.fillStyle='#264d49';ctx.fill();ctx.globalAlpha=1;box(x-10,y,8,15,3,'#4d6461');box(x+3,y,8,15,3,'#4d6461');box(x-14,y-27+bounce,28,34,10,color);circle(x,y-36+bounce,15,'#e9ba98');ctx.fillStyle='#4b514a';ctx.beginPath();ctx.arc(x,y-41+bounce,14,Math.PI,Math.PI*2);ctx.fill();circle(x+5,y-35+bounce,1.6,'#4b514a');}
 function draw(){
  ctx.clearRect(0,0,1000,620);box(0,0,1000,620,0,'#d8e2d8');box(20,20,310,580,5,'#e9eada');box(353,20,627,580,5,'#e6eee4');for(let y=40;y<600;y+=45){line(23,y,326,y,'#dde0cc',1);line(356,y,976,y,'#dae5da',1)}
- text('待 产 接 待 区',172,48,12,'#8c9b89');text(state.postpartum?'产 后 交 接':'陪 产 室',667,48,12,'#8c9b89');
+ text('待 产 接 待 区',172,48,12,'#8c9b89');text(state.readyForBirth?'产 后 交 接':'陪 产 室',667,48,12,'#8c9b89');
  box(60,76,211,71,12,'#9eb6ae');box(64,78,203,51,9,'#cfdbcd');box(85,90,48,25,3,'#607a77');box(90,95,38,15,2,'#a5c4b4');box(203,91,34,22,4,'#fff9e7');person(164,104,'#f6f5e7');box(70,123,191,27,5,'#b5cac0');text('护士站',165,172,12);
  // waiting bench, luggage and contact shelf
  box(65,387,202,73,13,'#aab7a0');box(72,393,189,52,10,'#d0d9bb');box(132,405,48,37,7,'#ce956d');line(143,405,143,399,'#956f4d',4);line(143,399,165,399,'#956f4d',4);line(165,399,165,405,'#956f4d',4);box(144,416,24,15,3,'#e4bd8d');
@@ -169,7 +169,7 @@ function draw(){
  // bed and partner; monitor is purely decorative with no clinical readings
  box(602,85,205,142,15,'#9db6b0');box(611,93,188,119,10,'#f9f7e7');box(651,100,108,34,10,'#d8ded0');circle(707,131,23,'#5f5149');circle(707,140,17,'#eab996');box(614,159,182,52,7,'#b4cbbd');box(691,155,37,38,10,'#d6afa0');line(603,98,603,204,'#829f99',5);line(808,98,808,204,'#829f99',5);
  if(state.done.comfort)box(760,142,31,44,9,'#e6ca9f');
- if(state.postpartum){box(737,161,29,33,13,'#fff4d6');circle(751,161,10,'#e8bd99');}
+
  box(850,120,58,54,10,'#aec4bd');circle(879,145,15,state.request&&!state.called?'#dca06a':'#779f93');text('✚',879,151,19,'#fffdf1');
  box(448,103,102,61,12,'#9cb6ab');box(456,109,86,44,10,'#c6d7c1');box(443,124,15,47,5,'#87a499');box(540,124,15,47,5,'#87a499');
  // supplies, water and handover table

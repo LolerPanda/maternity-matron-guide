@@ -1,12 +1,14 @@
 # 爸爸练习生 · 围产成长地图
 
+**新增陪产续篇：[迎接你 · 从陪产到第一次见面](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/birth.html)**。12 个连续时刻连接待产、分娩、初次接触与出生后的照护；包含空间整理、陪伴回应、连续出生叙事与医护交接。本机自动续存，可随时暂停。
+
 **新增独立驾驶特别篇：[安心同行 · 向阳家园到星光妇产医院](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/drive-beijing.html)**。俯视街机驾驶，实际控制油门、刹车和前轮转向，支持倒车，不再自动沿路转弯，包含前车、红灯、出口及停车；新增 8 分钟平稳挑战、颠簸预算、弯道反馈和三类路况事件。虚构城市道路，场景压缩且不用于导航；原「雨夜，去医院」完整保留。[玩法说明与边界](docs/BEIJING_DRIVE.md)。
 
 **临产出发已重制：[雨夜，去医院](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/route.html)**。两张地图、整段路线规划、动态封路与缓行、院区夜间入口和遮雨路线、电梯寻路；到院后找到产科接待才完成。支持行进暂停、路口存档和实际路线回顾。
 
-[直接在线游玩：十章中文游戏合集](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/series.html)
+[直接在线游玩：十一章中文游戏合集](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/series.html)
 
-从孕晚期到产后持续支持，每章一种主要玩法：**行李拼图、路线应变、医院陪产、出院交接、家庭夜班、轮班排程、环境安抚、来访分流、求助通讯、支持网络**。保留两款场景模拟，新增八款独立互动游戏。所有章节开放，无需刷关或连续登录。
+从孕晚期到产后持续支持，每章一种主要玩法：**行李拼图、路线应变、医院陪产、出生见证、出院交接、家庭夜班、轮班排程、环境安抚、来访分流、求助通讯、支持网络**。保留两款场景模拟，新增八款独立互动游戏。所有章节开放，无需刷关或连续登录。
 
 新增八章支持电脑和手机、过程自动存档、可选原创程序配乐；提示放在场景外。已有陪产与夜班游戏保留原玩法及最佳成绩存储。详细的场景覆盖、去重复设计和未覆盖情境见 [系列规划](docs/SERIES_PLAN.md)。新系列目前为中文；英文版仍是原有知识练习。
 
@@ -14,7 +16,7 @@
 
 ```text
 dad-quest/
-├── series.html                 # 十章地图与完成标记
+├── series.html                 # 十一章地图与完成标记
 ├── drive-beijing.html          # 独立安心驾驶特别篇
 ├── docs/BEIJING_DRIVE.md        # 地图蓝本、操控和存储说明
 ├── assets/js/beijing-drive-core.js # 驾驶规则
@@ -73,6 +75,7 @@ dad-quest/
 
 ```text
 dad-quest/
+├── birth.html                  # 陪产续篇：迎接你
 ├── labor.html                  # 独立中文陪产游戏
 ├── LABOR.md                    # 陪产篇玩法说明
 ├── index.html                  # 中文可操作游戏
@@ -85,6 +88,9 @@ dad-quest/
 │   ├── css/labor.css           # 陪产篇样式
 │   └── js/
 │       ├── music.js            # 本地合成背景配乐
+│       ├── birth-core.js            # 续篇规则与存档校验
+│       ├── birth-scene.js           # 连续分娩室画面
+│       ├── birth.js                 # 续篇交互
 │       ├── labor.js            # 陪产、节奏挑战与医护交接
 │       ├── night.js            # Canvas 场景、寻路、任务与事件
 │       ├── app.js              # 知识练习逻辑
@@ -120,3 +126,5 @@ node --test dad-quest/tests/*.test.cjs
 
 
 安心驾驶篇新增分段路况：1–3 车道及渐变收窄、20/30/40/60 游戏限速与路牌、接缝路面的高速颠簸、湿滑路面的较长制动距离和转弯反馈。NPC 按分段限速行驶并提前并入单车道。道路宽度与碰撞边界使用同一套数据；车道数与速度均为原创玩法设定，不代表真实交通规定。
+
+新篇文件：`dad-quest/assets/js/birth-core.js`（阶段与规则）、`birth-scene.js`（原创房间绘制）、`birth.js`（交互、暂停与续存）、`dad-quest/assets/css/birth.css`，说明见 `dad-quest/docs/BIRTH_JOURNEY.md`。完整系列现在包含 11 个章节。

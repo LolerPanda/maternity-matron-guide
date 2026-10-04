@@ -1,9 +1,9 @@
-/* Original, geographically inspired arcade course; not navigational road geometry. */
+/* Original fictional arcade course; not navigational road geometry. */
 (() => {'use strict';
 const points=[[380,2920],[380,2760],[260,2660],[100,2640],[100,2400],[120,2040],[130,1680],[120,1320],[100,990],[70,720],[-40,530],[-210,430],[-390,350],[-540,235],[-630,125],[-640,0]];
 const segments=[];let length=0;for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i],n=Math.hypot(b[0]-a[0],b[1]-a[1]);segments.push({a,b,start:length,length:n,angle:Math.atan2(b[1]-a[1],b[0]-a[0])});length+=n;}
 function sample(d){d=Math.max(0,Math.min(length,d));const q=segments.find(s=>d<=s.start+s.length)||segments.at(-1),t=(d-q.start)/q.length;return {x:q.a[0]+(q.b[0]-q.a[0])*t,y:q.a[1]+(q.b[1]-q.a[1])*t,angle:q.angle};}
-const marks=[{at:0,name:'北京欢乐谷',road:'欢乐谷出发区',limit:30},{at:280,name:'四方桥片区',road:'驶入东四环 · 游戏化匝道',limit:40},{at:640,name:'窑洼湖桥片区',road:'东四环南路',limit:60},{at:1080,name:'大郊亭桥片区',road:'东四环中路',limit:60},{at:1470,name:'四惠桥片区',road:'东四环中路',limit:60},{at:1900,name:'红领巾桥片区',road:'东四环北路',limit:60},{at:2330,name:'东风北桥片区',road:'东四环北路',limit:60},{at:2750,name:'四元桥片区',road:'出口准备 · 靠右减速',limit:40},{at:3060,name:'京顺路片区',road:'往三元桥方向 · 游戏化连接',limit:30},{at:length-170,name:'北京宜和医院',road:'京顺路 111 号 · 模拟落客区',limit:20}];
+const marks=[{at:0,name:'向阳家园',road:'向阳家园出发区',limit:30},{at:280,name:'晨光路口片区',road:'驶入环城大道 · 游戏化匝道',limit:40},{at:640,name:'湖畔路口片区',road:'环城南路',limit:60},{at:1080,name:'梧桐路口片区',road:'环城中路',limit:60},{at:1470,name:'云杉路口片区',road:'环城中路',limit:60},{at:1900,name:'清风路口片区',road:'环城北路',limit:60},{at:2330,name:'白鹭路口片区',road:'环城北路',limit:60},{at:2750,name:'月湾立交片区',road:'出口准备 · 靠右减速',limit:40},{at:3060,name:'星光路片区',road:'往星光街区方向 · 游戏化连接',limit:30},{at:length-170,name:'星光妇产医院',road:'星光路 · 模拟落客区 · 模拟落客区',limit:20}];
 // Original gameplay sections, not surveyed Beijing lane counts or legal limits.
 const roadTypes=[
  {lanes:2,surface:'园区铺装',color:'#777c70',safe:30,grip:1},
@@ -22,6 +22,8 @@ function roadAt(d){const i=Math.max(0,marks.findLastIndex(m=>d>=m.at)),m=marks[i
  const bounds=n=>({left:n===1?0:-54,right:n===3?98:54});const a=bounds(prev.lanes),b=bounds(m.lanes);
  return {...m,left:a.left+(b.left-a.left)*t,right:a.right+(b.right-a.right)*t,centers:m.lanes===1?[22]:m.lanes===3?[-22,22,66]:[-22,22]};
 }
+function crossingGeometry(at){const road=roadAt(at);return {left:road.left,right:road.right,walkStart:road.left-14,walkEnd:road.right+14};}
+function pedestrianLane(s){const g=crossingGeometry(2400),t=Math.max(0,Math.min(1,(s.time-s.eventStart)/12));return g.walkStart+(g.walkEnd-g.walkStart)*t;}
 function roadAhead(s){return marks.find(m=>m.at>s.d&&m.at-s.d<200)||null;}
 const signals=[{at:160,period:18,red:7,offset:0},{at:length-230,period:20,red:8,offset:5}];
 const traffic=[{start:720,lane:-22,speed:18,color:'#c49966'},{start:1240,lane:23,speed:13,color:'#869aa3'},{start:1860,lane:-22,speed:16,color:'#9dafa0'},{start:2410,lane:23,speed:14,color:'#b09aa8'}];
@@ -95,5 +97,5 @@ function step(s,input,dt){
  if(!n.failed&&parking&&Math.abs(n.speed)<.3&&!input.gas){n.parkTime+=dt;if(n.parkTime>=2){n.done=true;n.notice='车身摆正，稳稳停好了。';}}else n.parkTime=0;
  return n;
 }
-window.BeijingDrive={roadAt,roadAhead,challenge,hazards,activeEvent,practice,points,segments,length,sample,offset,project,wrap,recover,marks,signals,traffic,initial,zone,red,cars,step};
+window.BeijingDrive={crossingGeometry,pedestrianLane,roadAt,roadAhead,challenge,hazards,activeEvent,practice,points,segments,length,sample,offset,project,wrap,recover,marks,signals,traffic,initial,zone,red,cars,step};
 })();

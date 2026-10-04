@@ -1,5 +1,7 @@
 # 围产家庭支持工具 / Maternity & New Parent Toolkit
 
+**新增独立驾驶特别篇：[北京同行 · 欢乐谷到三元桥](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/drive-beijing.html)**。俯视街机驾驶，实际控制油门、刹车和车道，包含前车、红灯、出口及停车。北京道路方位为蓝本，场景压缩且不用于导航；原「雨夜，去医院」完整保留。[玩法、地图来源与边界](dad-quest/docs/BEIJING_DRIVE.md)。
+
 **临产出发已重制：[雨夜，去医院](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/route.html)**。两张地图、整段路线规划、动态封路与缓行、院区夜间入口和遮雨路线、电梯寻路；到院后找到产科接待才完成。支持行进暂停、路口存档和实际路线回顾。
 
 **[爸爸练习生 · 十章中文游戏合集](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/series.html)**
@@ -67,6 +69,7 @@ maternity-matron-guide/
 ├── README.md                       # 中文仓库说明
 ├── README.en.md                    # English repository guide
 ├── dad-quest/
+│   ├── drive-beijing.html          # 独立北京驾驶特别篇
 │   ├── route.html                  # 临产出发重制：城市与院区
 │   ├── series.html                 # 十章中文成长地图
 │   ├── adventure.html              # 八款新互动章节

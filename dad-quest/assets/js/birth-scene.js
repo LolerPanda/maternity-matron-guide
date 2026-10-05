@@ -20,7 +20,10 @@ function draw(canvas,state={},time=0){
  const blanket=clamp(state.blanket||0,0,100)/100;
  const t=Number.isFinite(time)?time:0;
  const player=state.player||{x:300,y:430};
- const holding=!!state.held&&(stage===2||stage===6)&&Math.hypot(player.x-targets.head.x,player.y-targets.head.y)<65;
+ const nearHead=Math.hypot(player.x-targets.head.x,player.y-targets.head.y)<65;
+ const cuddling=!!state.cuddle&&(stage===6||stage===7)&&nearHead&&!state.phoneOpen;
+ const phoneOpen=!!state.phoneOpen&&!cuddling&&!state.held;
+ const holding=!!state.held&&(stage===2||stage===6)&&nearHead&&!cuddling&&!phoneOpen;
  const box=(x,y,w,h,r,fill,stroke)=>{c.beginPath();c.roundRect(x,y,w,h,r);if(fill){c.fillStyle=fill;c.fill();}if(stroke){c.strokeStyle=stroke;c.lineWidth=2;c.stroke();}};
  const circle=(x,y,r,fill)=>{c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fillStyle=fill;c.fill();};
  const line=(x,y,x2,y2,stroke,width=2)=>{c.beginPath();c.moveTo(x,y);c.lineTo(x2,y2);c.strokeStyle=stroke;c.lineWidth=width;c.lineCap='round';c.stroke();};
@@ -41,6 +44,35 @@ function draw(canvas,state={},time=0){
   c.beginPath();c.arc(x,y-53,17,Math.PI,Math.PI*2);c.fillStyle=doctor?'#78918a':'#5b5146';c.fill();
   if(nurse||doctor){box(x-18,y-66,36,10,4,nurse?'#fffcee':'#7ca693');box(x-9,y-38,18,9,4,'#d2e1d6');box(x+6,y-24,7,10,2,'#d1b88c');}
   else{circle(x+(facing==='left'?-6:6),y-48,1.6,palette.ink);line(x+3,y-41,x+8,y-41,'#a97458',1.5);box(x-5,y-28,10,5,2,'#deb18c');}
+ }
+ function leaningDad(x,y){
+  // Feet stay at the player's position. Only the upper body leans toward the pillow.
+  ellipse(x,y+11,22,8,'#506e5722');
+  box(x-14,y-1,11,20,5,'#5b7268');box(x+3,y-1,11,20,5,'#5b7268');
+  c.beginPath();c.moveTo(x-18,y-8);c.quadraticCurveTo(x-5,y-35,397,182);
+  c.quadraticCurveTo(411,180,419,193);c.quadraticCurveTo(424,205,407,214);
+  c.quadraticCurveTo(x+29,y+7,x+12,y+7);c.closePath();c.fillStyle=palette.orange;c.fill();
+  // One forearm rests near the pillow edge; it stays above the baby's position.
+  c.beginPath();c.moveTo(398,206);c.quadraticCurveTo(390,231,412,242);
+  c.strokeStyle=palette.skin;c.lineWidth=9;c.lineCap='round';c.stroke();circle(413,242,5,palette.skin);
+  line(411,195,424,195,palette.skin,12);
+  // Mother: (460.44,225.84), radius 21. Father: (435.8,193.3), radius 18.
+  // Their face silhouettes remain separate; just the two forehead edges meet.
+  c.save();c.translate(435.8,193.3);c.rotate(1.153);
+  circle(0,0,18,palette.skin);
+  c.beginPath();c.arc(-3,-6,17,Math.PI,Math.PI*2);c.fillStyle='#5b5146';c.fill();
+  box(-18,-9,7,16,4,'#5b5146');
+  line(4,-1,9,-1,'#705945',1.5);line(3,8,7,8,'#ad7b5c',1.3);
+  c.restore();
+  line(446.7,207.7,447.8,209.1,palette.skin,2.5);
+ }
+ function phone(x,y){
+  // A small, inward-facing personal screen; this never opens a second scene overlay.
+  line(x+17,y-21,x+24,y-16,palette.skin,8);
+  c.save();c.translate(x+25,y-25);c.rotate(-.14);
+  box(-7,-9,15,25,3,'#46675d');box(-5,-6,11,17,1.5,'#c9dccb');
+  circle(.5,13,1,'#b1c4b3');line(-2,-2,3,-2,'#92b299',1);line(-2,2,3,2,'#92b299',1);
+  c.restore();circle(x+21,y-10,3.5,palette.skin);
  }
  function baby(x,y,scale=1,cover=0){
   c.save();c.translate(x,y);c.rotate(-.25);c.scale(scale,scale);
@@ -74,7 +106,7 @@ function draw(canvas,state={},time=0){
  box(20,19,920,72,17,'#f7f5e9');
  const names=['把空间交给她','把空间交给她','把空间交给她','为医护留出通道','在她看得见的地方','与医护一起陪伴','等待，迎接新生命','第一声回应','贴近彼此','最初的安静时光','把后续安排听清','我们一起，走向下一程'];
  label('THE FIRST HELLO',52,43,10,'#9c9f86','left');
- label(names[clamp(stage,0,11)],52,68,20,palette.ink,'left');
+ label(stage===6&&born?'你好，终于见面了':names[clamp(stage,0,11)],52,68,20,palette.ink,'left');
  label('安心陪伴室',858,44,13,palette.muted);label(born?'你好，小小的新朋友':'此刻，一起在这里',858,65,10,'#8b9d8c');
  // A window curtain visibly closes for privacy; it never obscures the playing area.
  box(258,120,341,56,7,'#a9beb1');box(267,126,323,44,4,'#f1ead0');
@@ -143,7 +175,8 @@ function draw(canvas,state={},time=0){
  else {c.save();c.globalAlpha=.8;person(722,216,'nurse','left');c.restore();}
  label('医护',740,309,11);
  const chairPos=state.chair||{x:600,y:370};chair(chairPos.x,chairPos.y);
- person(player.x,player.y,'dad',player.x>445?'left':'right');
+ if(cuddling)leaningDad(player.x,player.y);
+ else{person(player.x,player.y,'dad',player.x>445?'left':'right');if(phoneOpen)phone(player.x,player.y);}
  if(holding){
   // Shared hands visibly respond to the hold control; releasing restores both resting arms.
   const dad={x:player.x+19,y:player.y-22},mom={x:438.3,y:271};

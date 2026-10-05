@@ -2,6 +2,10 @@
 
 **新增陪产续篇：[迎接你 · 从陪产到第一次见面](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/birth.html)**。12 个连续时刻连接待产、分娩、初次接触与出生后的照护；包含空间整理、陪伴回应、连续出生叙事与医护交接。本机自动续存，可随时暂停。
 
+出生叙事与初次接触时，可以在妈妈剧情同意后走到床头，选择头贴头陪伴。也可打开游戏手机，把取景滑块调整到 45–65，在宝宝出生后截取游戏画面，下载 PNG 纪念图。纪念图使用本局剧情出生瞬间锁定的设备本地时间，延后截图不会改变这一时刻；旧的已出生存档若没有时间记录，保持未记录状态。
+
+头贴头和纪念截图均为可选互动，不影响主线，取景与截图可无限重试。游戏不调用系统截屏或相机；照片独立存于浏览器 `dad-birth-photo-v1`，可能受存储容量限制，建议下载保留。腕带配对编号 `A-0618` 仍为虚构。[续篇玩法与记录说明](docs/BIRTH_JOURNEY.md)。
+
 **新增独立驾驶特别篇：[安心同行 · 向阳家园到星光妇产医院](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/drive-beijing.html)**。俯视街机驾驶，实际控制油门、刹车和前轮转向，支持倒车，不再自动沿路转弯，包含前车、红灯、出口及停车；新增 8 分钟平稳挑战、颠簸预算、弯道反馈和三类路况事件。虚构城市道路，场景压缩且不用于导航；原「雨夜，去医院」完整保留。[玩法说明与边界](docs/BEIJING_DRIVE.md)。
 
 **临产出发已重制：[雨夜，去医院](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/route.html)**。两张地图、整段路线规划、动态封路与缓行、院区夜间入口和遮雨路线、电梯寻路；到院后找到产科接待才完成。支持行进暂停、路口存档和实际路线回顾。
@@ -90,6 +94,7 @@ dad-quest/
 │       ├── music.js            # 本地合成背景配乐
 │       ├── birth-core.js            # 续篇规则与存档校验
 │       ├── birth-scene.js           # 连续分娩室画面
+│       ├── birth-keepsake.js        # PNG 截图、纪念卡与照片校验
 │       ├── birth.js                 # 续篇交互
 │       ├── labor.js            # 陪产、节奏挑战与医护交接
 │       ├── night.js            # Canvas 场景、寻路、任务与事件
@@ -127,6 +132,6 @@ node --test dad-quest/tests/*.test.cjs
 
 安心驾驶篇新增分段路况：1–3 车道及渐变收窄、20/30/40/60 游戏限速与路牌、接缝路面的高速颠簸、湿滑路面的较长制动距离和转弯反馈。NPC 按分段限速行驶并提前并入单车道。道路宽度与碰撞边界使用同一套数据；车道数与速度均为原创玩法设定，不代表真实交通规定。
 
-新篇文件：`dad-quest/assets/js/birth-core.js`（阶段与规则）、`birth-scene.js`（原创房间绘制）、`birth.js`（交互、暂停与续存）、`dad-quest/assets/css/birth.css`，说明见 `dad-quest/docs/BIRTH_JOURNEY.md`。完整系列现在包含 11 个章节。
+新篇文件：`dad-quest/assets/js/birth-core.js`（阶段与规则）、`birth-scene.js`（原创房间绘制）、`birth-keepsake.js`（PNG 画面截图、纪念卡与照片校验）、`birth.js`（交互、暂停与续存）、`dad-quest/assets/css/birth.css`，说明见 `dad-quest/docs/BIRTH_JOURNEY.md`。完整系列现在包含 11 个章节。
 
 所有游戏章节默认开启轻柔配乐：有开始页的章节在点击开始后播放，其余章节在首次操作后播放。可手动关闭；暂停、切后台或结束时停止。

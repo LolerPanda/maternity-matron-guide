@@ -27,11 +27,15 @@ test('a complete night is reachable through movement, carrying, care, waiting, a
  g.tick(15);d('取出衣物');d('礼貌说明');d('回复家人');d('请信任的家人');g.tick(20);d('交接宝宝');d('坐下来休息');
  assert.ok(g.element('#overlay-content').innerHTML.includes('辛苦了，今晚的队友'));
  assert.equal(g.element('#task-count').textContent,'8 / 8');
+ assertExitLinks(g);
 });
 test('ending early produces an honest partial summary and supports replay',()=>{
  const g=game();g.tick(2);g.click('#finish');g.click('#end-confirm');
  assert.ok(g.element('#overlay-content').innerHTML.includes('0 / 8'));
+ assertExitLinks(g);
  g.click('#again');g.tick(1);assert.equal(g.element('#task-count').textContent,'0 / 8');
 });
 
-test('the night ends at the time limit with an accurate incomplete result',()=>{const g=game();g.tick(361);assert.ok(g.element('#overlay-content').innerHTML.includes('今晚，先走到这里'));assert.ok(g.element('#overlay-content').innerHTML.includes('0 / 8'));});
+test('the night ends at the time limit with an accurate incomplete result',()=>{const g=game();g.tick(361);assert.ok(g.element('#overlay-content').innerHTML.includes('今晚，先走到这里'));assert.ok(g.element('#overlay-content').innerHTML.includes('0 / 8'));assertExitLinks(g);});
+
+function assertExitLinks(g){const html=g.element('#overlay-content').innerHTML;assert.match(html,/href="adventure\.html\?chapter=shifts"/);assert.match(html,/href="series\.html"/);assert.ok(html.indexOf('recap-actions')<html.indexOf('features'),'exit links are above the lengthy recap');}

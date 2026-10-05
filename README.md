@@ -1,5 +1,7 @@
 # 围产家庭支持工具 / Maternity & New Parent Toolkit
 
+**后五章已重制为场景游戏**：双角色轮班、空间声源与安全暂停、多人门口协调、持续通讯与现场引导、会变化的支持网络。角色会实际移动，帮手会回复、晚到或临时缺席，每章有独立续存与章节导航。[五章玩法说明](dad-quest/docs/RECOVERY_GAMES.md)。
+
 **新增陪产续篇：[迎接你 · 从陪产到第一次见面](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/birth.html)**。12 个连续时刻连接待产、分娩、初次接触与出生后的照护；包含空间整理、陪伴回应、连续出生叙事与医护交接。本机自动续存，可随时暂停。
 
 出生叙事与初次接触时，可以在妈妈剧情同意后走到床头，选择头贴头陪伴。也可打开游戏手机，把取景滑块调整到 45–65，在宝宝出生后截取游戏画面，下载 PNG 纪念图。纪念图使用本局剧情出生瞬间锁定的设备本地时间，延后截图不会改变这一时刻；旧的已出生存档若没有时间记录，保持未记录状态。
@@ -80,6 +82,7 @@ maternity-matron-guide/
 │   ├── series.html                 # 十一章中文成长地图
 │   ├── adventure.html              # 八款新互动章节
 │   ├── docs/SERIES_PLAN.md          # 场景规划与玩法分工
+│   ├── recovery.html              # 后五章场景重制入口
 │   ├── birth.html                  # 陪产续篇：迎接你
 │   ├── labor.html                  # 新增中文陪产游戏
 │   ├── LABOR.md                    # 陪产篇玩法说明
@@ -95,6 +98,9 @@ maternity-matron-guide/
 │   │       ├── series-core.js      # 规则与存储
 │   │       ├── series-hub.js       # 地图与进度
 │   │       ├── episodes.js         # 八种新玩法
+│   │       ├── recovery-core.js    # 五章规则与独立存档
+│   │       ├── recovery-scene.js   # 五个原创场景
+│   │       ├── recovery.js         # 输入、界面与章节导航
 │   │       ├── birth-core.js       # 出生续篇规则与存档
 │   │       ├── birth-scene.js      # 连续分娩室画面
 │   │       ├── birth-keepsake.js   # PNG 截图、纪念卡与照片校验

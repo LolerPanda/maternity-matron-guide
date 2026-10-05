@@ -3,8 +3,9 @@
 'use strict';
 const C=window.DadSeries, $=id=>document.getElementById(id);
 const id=new URLSearchParams(location.search).get('chapter');
+if(['shifts','soothe','visitors','signal','network'].includes(id)&&!new URLSearchParams(location.search).has('legacy')){location.replace('recovery.html?chapter='+id);return;}
 if(id==='route'){location.replace('route.html');return;}
-const meta=DAD_CHAPTERS.find(c=>c.id===id&&!c.href);
+const meta=DAD_CHAPTERS.find(c=>c.id===id&&(!c.href||new URLSearchParams(location.search).has('legacy')));
 if(!meta){$('title').textContent='这一章还没有收录';$('description').textContent='请回到成长地图选择章节。';$('board').innerHTML='<a href="series.html">返回成长地图</a>';return;}
 let s=C.load(id), done=false, musicOn=true,musicStarted=false;
 const music=new NightMusic();

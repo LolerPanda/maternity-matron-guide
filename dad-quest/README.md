@@ -128,3 +128,5 @@ node --test dad-quest/tests/*.test.cjs
 安心驾驶篇新增分段路况：1–3 车道及渐变收窄、20/30/40/60 游戏限速与路牌、接缝路面的高速颠簸、湿滑路面的较长制动距离和转弯反馈。NPC 按分段限速行驶并提前并入单车道。道路宽度与碰撞边界使用同一套数据；车道数与速度均为原创玩法设定，不代表真实交通规定。
 
 新篇文件：`dad-quest/assets/js/birth-core.js`（阶段与规则）、`birth-scene.js`（原创房间绘制）、`birth.js`（交互、暂停与续存）、`dad-quest/assets/css/birth.css`，说明见 `dad-quest/docs/BIRTH_JOURNEY.md`。完整系列现在包含 11 个章节。
+
+所有游戏章节默认开启轻柔配乐：有开始页的章节在点击开始后播放，其余章节在首次操作后播放。可手动关闭；暂停、切后台或结束时停止。

@@ -6,8 +6,16 @@ const id=new URLSearchParams(location.search).get('chapter');
 if(id==='route'){location.replace('route.html');return;}
 const meta=DAD_CHAPTERS.find(c=>c.id===id&&!c.href);
 if(!meta){$('title').textContent='这一章还没有收录';$('description').textContent='请回到成长地图选择章节。';$('board').innerHTML='<a href="series.html">返回成长地图</a>';return;}
-let s=C.load(id), done=false, musicOn=false;
-const music=new NightMusic();music.setEnabled(false);
+let s=C.load(id), done=false, musicOn=true,musicStarted=false;
+const music=new NightMusic();
+function syncMusic(){music.setPlaying(musicStarted&&musicOn&&!done&&!document.hidden&&!$('modal').open);}
+// These untimed chapters have no start dialog. Unlock audio on the first user action.
+function startMusic(e){
+ if(e.type==='pointerdown'&&e.target.closest?.('#music'))return;
+ if(e.type==='keydown'&&['Escape','Meta','Control','Alt','Shift'].includes(e.key))return;
+ musicStarted=true;for(const type of ['pointerdown','click','keydown'])document.removeEventListener(type,startMusic);syncMusic();
+}
+for(const type of ['pointerdown','click','keydown'])document.addEventListener(type,startMusic);
 const hints={pack:'先选物件，可旋转，再点箱内左上角格子放下。点已放入的物件可取出。',route:'先联系产科，再点击与当前位置相连的地点。封路后可以折返或绕行。',handover:'翻阅三份资料，点选一条信息，再点下面对应的交接栏。缺失的信息先向医护补问。',shifts:'先选任务，再点成人时间表。点已安排的格子可撤回；休息必须有人同时接班。',soothe:'拖动两个滑杆布置环境，再依次完成观察、安置、暂停和支援。无需让宝宝停止哭泣。',visitors:'把来访卡片拖到合适通道，也可以直接点击通道。没有倒计时，按家庭已确认的安排处理。',signal:'先按模拟求助键。联络启动后再点选事实，归入四个栏位，传递给医护。',network:'先选左边的需求，再点右边的支持者。连线可改派；每个人有不同专长和容量。'};
 $('stage').textContent=meta.stage+' / 爸爸练习生';$('title').textContent=meta.name;document.title=meta.name+' · 爸爸练习生';$('description').textContent=meta.desc;$('board-tag').textContent=meta.subtitle;$('objective').textContent=meta.mechanic;$('instructions').textContent=hints[id];$('lesson').textContent=meta.lesson;
 function say(t){$('feedback').textContent=t;}
@@ -15,13 +23,13 @@ function save(){C.save(id,s);$('saved').textContent=C.storageOK()?'已自动保�
 function update(t){save();render();if(t)say(t);}
 function finish(){done=true;C.complete(id);save();music.setPlaying(false);render();say('这一章已完成。你可以回到地图，自由选择下一种挑战。');}
 function modal(title,text,confirm){music.setPlaying(false);$('modal-content').innerHTML=`<h2>${title}</h2><p>${text}</p><div class="choice-actions"><button class="primary" id="resume">${confirm?'确认重新开始':'继续游戏'}</button>${confirm?'<button class="secondary" id="cancel">保留进度</button>':''}</div>`;$('modal').showModal();$('resume').onclick=()=>{if(confirm){s=C.initial(id);done=false;update('新一轮准备好了。完成徽章会保留。');}$('modal').close();};if(confirm)$('cancel').onclick=()=>$('modal').close();}
-$('modal').addEventListener('close',()=>music.setPlaying(musicOn&&!done&&!document.hidden));
+$('modal').addEventListener('close',syncMusic);
 $('pause').onclick=()=>modal('停一会儿，也没有关系','游戏已暂停。这里没有连续登录、限时奖励或扣分。');
 $('guide').onclick=()=>modal('这一章怎么玩',hints[id]+' '+meta.lesson);
 $('restart').onclick=()=>modal('重新开始这一章？','将清空本章进行中的操作，其他章节的进度会保留。',true);
-$('music').onclick=()=>{musicOn=!musicOn;$('music').textContent='配乐：'+(musicOn?'开':'关');$('music').setAttribute('aria-pressed',String(musicOn));music.setEnabled(musicOn);music.setPlaying(musicOn&&!done);};
+$('music').onclick=()=>{musicOn=!musicOn;$('music').textContent='配乐：'+(musicOn?'开':'关');$('music').setAttribute('aria-pressed',String(musicOn));music.setEnabled(musicOn);syncMusic();};
 music.onUnavailable=()=>{musicOn=false;$('music').textContent='配乐暂不可用';$('music').setAttribute('aria-pressed','false');};
-document.addEventListener('visibilitychange',()=>music.setPlaying(musicOn&&!done&&!document.hidden&&!$('modal').open));
+document.addEventListener('visibilitychange',syncMusic);
 window.addEventListener('pagehide',()=>music.setPlaying(false));
 function btn(key,label,selected=false,disabled=false){return `<button data-key="${key}" class="${selected?'selected':''}" ${disabled?'disabled':''}>${label}</button>`;}
 function toolButtons(items,selected,fn){$('tools').innerHTML=items.map(x=>btn(x.id,x.label||x.name,selected===x.id,x.disabled)).join('');$('tools').querySelectorAll('[data-key]').forEach(b=>b.onclick=()=>fn(b.dataset.key));}

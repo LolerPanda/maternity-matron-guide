@@ -3,8 +3,16 @@
 const D=window.Departure,$=id=>document.getElementById(id),storageKey='dad-departure-v2';
 let s=D.initial(),storageOK=true;
 try{const loaded=JSON.parse(localStorage.getItem(storageKey));if(D.valid(loaded))s=loaded;}catch{}
-let leg=null,auto=false,last=0,musicOn=false;
-const music=new NightMusic();music.setEnabled(false);
+let leg=null,auto=false,last=0,musicOn=true,musicStarted=false;
+const music=new NightMusic();
+function syncMusic(){music.setPlaying(musicStarted&&musicOn&&s.stage!=='done'&&!document.hidden&&!$('modal').open);}
+// These untimed chapters have no start dialog. Unlock audio on the first user action.
+function startMusic(e){
+ if(e.type==='pointerdown'&&e.target.closest?.('#music'))return;
+ if(e.type==='keydown'&&['Escape','Meta','Control','Alt','Shift'].includes(e.key))return;
+ musicStarted=true;for(const type of ['pointerdown','click','keydown'])document.removeEventListener(type,startMusic);syncMusic();
+}
+for(const type of ['pointerdown','click','keydown'])document.addEventListener(type,startMusic);
 function save(){try{localStorage.setItem(storageKey,JSON.stringify(s));}catch{storageOK=false;}$('saved').textContent=storageOK?'已保存到当前路口。刷新或离开后，可从这里继续。':'浏览器无法保存。本次仍可游玩，关闭后进度可能丢失。';}
 const name=(id,stage=s.stage)=>(stage==='city'?D.city:D.campus).nodes.find(n=>n[0]===id)?.[1]||id;
 function say(text){$('feedback').textContent=text;}
@@ -43,10 +51,10 @@ function modal(title,text,restart=false){music.setPlaying(false);$('modal-conten
 $('pause').onclick=()=>modal('暂停这一程','车辆和角色已经暂停；关闭对话框后从原位置继续。规划阶段没有时间压力。');
 $('guide').onclick=()=>modal('先规划，再行进','点击与路线末端相连的地点，组成路线。数字是虚构分钟；按“出发”后角色沿线移动。路况变化会中断旧规划，请读广播再改道。到院后查看夜间入口、露天通道和电梯指引；先到服务台确认位置。可撤回、暂停或离开，不用从头重复。');
 $('restart').onclick=()=>modal('重新开始？','本关进行中的路线将重置，其他章节进度不受影响。',true);
-$('modal').addEventListener('close',()=>music.setPlaying(musicOn&&s.stage!=='done'&&!document.hidden));
-$('music').onclick=()=>{musicOn=!musicOn;music.setEnabled(musicOn);music.setPlaying(musicOn&&s.stage!=='done');$('music').textContent='配乐：'+(musicOn?'开':'关');$('music').setAttribute('aria-pressed',String(musicOn));};
+$('modal').addEventListener('close',syncMusic);
+$('music').onclick=()=>{musicOn=!musicOn;music.setEnabled(musicOn);syncMusic();$('music').textContent='配乐：'+(musicOn?'开':'关');$('music').setAttribute('aria-pressed',String(musicOn));};
 music.onUnavailable=()=>{musicOn=false;$('music').textContent='配乐暂不可用';$('music').setAttribute('aria-pressed','false');};
-document.addEventListener('visibilitychange',()=>music.setPlaying(musicOn&&!document.hidden&&!$('modal').open&&s.stage!=='done'));window.addEventListener('pagehide',()=>music.setPlaying(false));
+document.addEventListener('visibilitychange',syncMusic);window.addEventListener('pagehide',()=>music.setPlaying(false));
 function complete(){
  leg=null;auto=false;music.setPlaying(false);DadSeries.complete('route');document.querySelector('.departure-layout').hidden=true;$('recap').hidden=false;
  const cityHistory=s.history.filter(h=>h.stage==='city'),campusHistory=s.history.filter(h=>h.stage==='campus');

@@ -1,6 +1,8 @@
 # 围产家庭支持工具 / Maternity & New Parent Toolkit
 
-**后五章已重制为场景游戏**：双角色轮班、空间声源与安全暂停、多人门口协调、持续通讯与现场引导、会变化的支持网络。角色会实际移动，帮手会回复、晚到或临时缺席，每章有独立续存与章节导航。[五章玩法说明](dad-quest/docs/RECOVERY_GAMES.md)。
+**轮班章已改为键盘行动游戏**：[把休息排进生活](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/shifts.html)。方向键 / WASD 移动，E / 空格近身互动；家具碰撞、携物减速、当面接班、休息环境准备、非紧急来电协调和休息后交接组成连续流程。[详细玩法](dad-quest/docs/SHIFT_GAME.md)。
+
+**后五章已重制为场景游戏**：家庭行动与轮班、空间声源与安全暂停、多人门口协调、持续通讯与现场引导、会变化的支持网络。角色会实际移动，帮手会回复、晚到或临时缺席，每章有独立续存与章节导航。[五章玩法说明](dad-quest/docs/RECOVERY_GAMES.md)。
 
 **新增陪产续篇：[迎接你 · 从陪产到第一次见面](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/birth.html)**。12 个连续时刻连接待产、分娩、初次接触与出生后的照护；包含空间整理、陪伴回应、连续出生叙事与医护交接。本机自动续存，可随时暂停。
 
@@ -14,7 +16,7 @@
 
 **[爸爸练习生 · 十一章中文游戏合集](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/series.html)**
 
-已实现从孕晚期到产后支持的十一种挑战：行李拼图、路线应变、医院陪产、出生见证、出院交接、家庭夜班、轮班排程、环境安抚、来访分流、求助通讯、支持网络。新增八章采用不同操作机制，可自由选章、自动保存，不要求重复刷关。
+已实现从孕晚期到产后支持的十一种挑战：行李拼图、路线应变、医院陪产、出生见证、出院交接、家庭夜班、家庭行动与轮班、环境安抚、来访分流、求助通讯、支持网络。新增八章采用不同操作机制，可自由选章、自动保存，不要求重复刷关。
 
 [系列规划与覆盖边界](dad-quest/docs/SERIES_PLAN.md) · [游戏结构与操作说明](dad-quest/README.md)
 
@@ -82,6 +84,8 @@ maternity-matron-guide/
 │   ├── series.html                 # 十一章中文成长地图
 │   ├── adventure.html              # 八款新互动章节
 │   ├── docs/SERIES_PLAN.md          # 场景规划与玩法分工
+│   ├── shifts.html                # 键盘行动轮班章
+│   ├── docs/SHIFT_GAME.md         # 轮班行动与续存说明
 │   ├── recovery.html              # 后五章场景重制入口
 │   ├── birth.html                  # 陪产续篇：迎接你
 │   ├── labor.html                  # 新增中文陪产游戏
@@ -98,6 +102,9 @@ maternity-matron-guide/
 │   │       ├── series-core.js      # 规则与存储
 │   │       ├── series-hub.js       # 地图与进度
 │   │       ├── episodes.js         # 八种新玩法
+│   │       ├── shifts-core.js      # 房间碰撞与连续轮班规则
+│   │       ├── shifts-scene.js     # 家具、角色与携物动画
+│   │       ├── shifts.js           # 键盘、触控与界面
 │   │       ├── recovery-core.js    # 五章规则与独立存档
 │   │       ├── recovery-scene.js   # 五个原创场景
 │   │       ├── recovery.js         # 输入、界面与章节导航

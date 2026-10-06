@@ -1,6 +1,7 @@
 (() => {'use strict';
 const R=window.RecoveryGames,$=id=>document.getElementById(id),id=new URLSearchParams(location.search).get('chapter'),meta=window.DAD_CHAPTERS.find(c=>c.id===id),canvas=$('scene');
 if(!R.ids.includes(id)){location.replace('series.html');return;}
+if(id==='shifts'&&!new URLSearchParams(location.search).has('legacy')){location.replace('shifts.html');return;}
 const key='dad-recovery-v2-'+id;let s=R.initial(id),paused=true,last=0,saveClock=0,signature='',drag=null,actor='dad',person='dad',selectedSource='tv',musicOn=true,finished=false;
 try{s=R.restore(JSON.parse(localStorage.getItem(key)),id);}catch{}
 const music=new NightMusic();music.setEnabled(true);

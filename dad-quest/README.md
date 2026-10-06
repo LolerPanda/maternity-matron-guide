@@ -1,6 +1,8 @@
 # 爸爸练习生 · 围产成长地图
 
-**后五章已重制为场景游戏**：双角色轮班、空间声源与安全暂停、多人门口协调、持续通讯与现场引导、会变化的支持网络。角色会实际移动，帮手会回复、晚到或临时缺席，每章有独立续存与章节导航。[五章玩法说明](docs/RECOVERY_GAMES.md)。
+**轮班章已改为键盘行动游戏**：[把休息排进生活](shifts.html)。方向键 / WASD 移动，E / 空格近身互动；家具碰撞、携物减速、当面接班、休息环境准备、非紧急来电协调和休息后交接组成连续流程。[详细玩法](docs/SHIFT_GAME.md)。
+
+**后五章已重制为场景游戏**：家庭行动与轮班、空间声源与安全暂停、多人门口协调、持续通讯与现场引导、会变化的支持网络。角色会实际移动，帮手会回复、晚到或临时缺席，每章有独立续存与章节导航。[五章玩法说明](docs/RECOVERY_GAMES.md)。
 
 **新增陪产续篇：[迎接你 · 从陪产到第一次见面](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/birth.html)**。12 个连续时刻连接待产、分娩、初次接触与出生后的照护；包含空间整理、陪伴回应、连续出生叙事与医护交接。本机自动续存，可随时暂停。
 
@@ -14,7 +16,7 @@
 
 [直接在线游玩：十一章中文游戏合集](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/series.html)
 
-从孕晚期到产后持续支持，每章一种主要玩法：**行李拼图、路线应变、医院陪产、出生见证、出院交接、家庭夜班、轮班排程、环境安抚、来访分流、求助通讯、支持网络**。保留两款场景模拟，新增八款独立互动游戏。所有章节开放，无需刷关或连续登录。
+从孕晚期到产后持续支持，每章一种主要玩法：**行李拼图、路线应变、医院陪产、出生见证、出院交接、家庭夜班、家庭行动与轮班、环境安抚、来访分流、求助通讯、支持网络**。保留两款场景模拟，新增八款独立互动游戏。所有章节开放，无需刷关或连续登录。
 
 新增八章支持电脑和手机、过程自动存档、可选原创程序配乐；提示放在场景外。已有陪产与夜班游戏保留原玩法及最佳成绩存储。详细的场景覆盖、去重复设计和未覆盖情境见 [系列规划](docs/SERIES_PLAN.md)。新系列目前为中文；英文版仍是原有知识练习。
 
@@ -28,7 +30,7 @@ dad-quest/
 ├── assets/js/beijing-drive-core.js # 驾驶规则
 ├── assets/js/beijing-drive.js   # 驾驶画面与输入
 ├── route.html                  # 重制的临产出发：城市与院区
-├── adventure.html              # 其他七个新增章节入口
+├── adventure.html              # 行李拼图与出院交接入口
 ├── index.html / labor.html     # 家庭夜班 / 医院陪产
 ├── practice.html / en.html     # 中文 / 英文知识练习
 ├── docs/SERIES_PLAN.md          # 场景覆盖与玩法分工
@@ -81,6 +83,8 @@ dad-quest/
 
 ```text
 dad-quest/
+├── shifts.html                 # 键盘行动轮班章
+├── docs/SHIFT_GAME.md           # 轮班行动与续存说明
 ├── recovery.html               # 后五章场景重制入口
 ├── birth.html                  # 陪产续篇：迎接你
 ├── labor.html                  # 独立中文陪产游戏
@@ -89,6 +93,7 @@ dad-quest/
 ├── practice.html               # 原中文知识练习
 ├── en.html                     # 原英文知识练习
 ├── assets/
+│   ├── css/shifts.css          # 行动轮班章界面
 │   ├── css/recovery.css        # 后五章场景重制样式
 │   ├── css/night.css           # 游戏界面
 │   ├── css/style.css           # 知识练习样式
@@ -96,6 +101,9 @@ dad-quest/
 │   ├── css/labor.css           # 陪产篇样式
 │   └── js/
 │       ├── music.js            # 本地合成背景配乐
+│       ├── shifts-core.js       # 房间碰撞与连续轮班规则
+│       ├── shifts-scene.js      # 家具、角色与携物动画
+│       ├── shifts.js            # 键盘、触控与界面
 │       ├── recovery-core.js     # 五章规则与独立存档
 │       ├── recovery-scene.js    # 五个原创场景
 │       ├── recovery.js          # 输入、界面与章节导航

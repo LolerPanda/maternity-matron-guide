@@ -26,7 +26,7 @@ function tools(){let html='',below='';
   const tips=['先看见当下需要','把额外刺激移开','走到床边，安全安置','留给自己的片刻','有人接过下一班','已经交接'];
   $('objective').textContent=tips[s.phase];
   if(s.phase===0)html=['needs','comfort','support'].map((k,i)=>button('observe:'+k,['和她听清已回应的需要','观察宝宝当下状态','看见妈妈和自己的疲惫'][i]+(s.observed.includes(k)?' ✓':''),'',s.observed.includes(k))).join('');
-  if(s.phase===1){below='<label>陪伴灯<input id="light" type="range" min="0" max="100" value="'+s.light+'" aria-label="调柔陪伴灯"></label>';html=['tv','phone','speaker'].map(k=>button('source:'+k,{tv:'选择电视声源',phone:'选择消息提示',speaker:'选择音箱'}[k],selectedSource===k?'selected':'')).join('')+button('quiet','将选中声源移到右侧安静区')+button('environment','确认环境已调整','primary');}
+  if(s.phase===1){below='<label>暗 ← 陪伴灯亮度 → 亮<input id="light" type="range" min="0" max="100" value="'+s.light+'" aria-label="调柔陪伴灯"><output id="light-level">'+s.light+'%</output></label>';html=['tv','phone','speaker'].map(k=>button('source:'+k,{tv:'选择电视声源',phone:'选择消息提示',speaker:'选择音箱'}[k],selectedSource===k?'selected':'')).join('')+button('quiet','将选中声源移到右侧安静区')+button('environment','确认环境已调整','primary');}
   if(s.phase===2)html=button('bed','走到婴儿床旁')+button('place','仰卧安置在独立婴儿床','primary',Math.hypot(s.player.x-320,s.player.y-285)>75);
   if(s.phase===3){html='<button id="steady" class="primary">按住 · 留给自己片刻</button>'+button('steady-toggle','轻触开始 / 停止短暂暂停')+'<progress id="steady-progress" max="8" value="'+s.steady+'" aria-label="给自己的暂停进度"></progress>';}
   if(s.phase>=3)html+=button('help',s.help?'家人正在接班路上':'联系家人接班','',s.help);
@@ -77,6 +77,7 @@ function render(){
  if(id!=='soothe')$('objective').textContent=({shifts:'安排会变化，交接要到位',visitors:'用具体边界保护休息',signal:'联络不断，现场有人接手',network:'让愿意帮忙的人真正接得住'})[id];
  const sp=speech();if($('speech').textContent!==sp)$('speech').textContent=sp;const feedback=s.message||'可以慢慢调整。任务不会因为操作慢造成健康后果。';if($('feedback').textContent!==feedback)$('feedback').textContent=feedback;
  $('journal').innerHTML=s.events.slice(-7).map(e=>'<li>'+eventText(e)+'</li>').join('')||'<li>先走进这一幕。每次协作都会留下记录。</li>';
+ if($('light-level'))$('light-level').textContent=s.light+'%';
  if($('steady'))$('steady').classList.toggle('holding',s.holding);if($('steady-progress'))$('steady-progress').value=s.steady;if($('talk-progress'))$('talk-progress').value=s.talk;if($('voice-progress'))$('voice-progress').value=s.voice;
 }
 const point=e=>{const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*960/r.width,y:(e.clientY-r.top)*560/r.height};};

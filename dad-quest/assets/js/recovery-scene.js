@@ -28,7 +28,7 @@ function draw(canvas,s){const d=Math.min(devicePixelRatio||1,2),w=Math.max(1,can
   s.sources.forEach(src=>{const names={tv:'电视',phone:'消息提示',speaker:'音箱'};for(let i=0;i<3;i++){c.beginPath();c.arc(src.x,src.y,30+i*18+(s.time*9)%18,0,7);c.strokeStyle='#b99d7440';c.lineWidth=2;c.stroke();}box(src.x-29,src.y-25,58,46,'#768f84',8);box(src.x-20,src.y-18,40,30,'#dfebd1',4);text(names[src.id],src.x,src.y+43,12);});
   person(s.player.x,s.player.y,'dad','爸爸');if(s.baby==='arms')baby(s.player.x+22,s.player.y-21);if(s.phase>=4&&s.wait>=14)person(838,465,'helper','接班家人');
   if(s.phase===3){box(74,455,180,58,'#fbf6df',12);text('留给自己的片刻',164,478,13);progress(91,493,146,s.steady/8);}
-  c.fillStyle=`rgba(60,58,32,${s.light/100*.08})`;c.fillRect(0,110,610,450);
+  c.fillStyle=`rgba(60,58,32,${(1-s.light/100)*.28})`;c.fillRect(0,110,610,450);
  }
  if(s.id==='visitors'){
   title('门口的好意，屋里的休息','先对讲确认 · 控制门与隐私屏 · 多位来访会同时出现');

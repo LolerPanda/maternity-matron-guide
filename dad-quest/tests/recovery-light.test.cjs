@@ -1,0 +1,5 @@
+const{test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
+test('increasing the lamp brightness makes the rendered room lighter, with the HUD outside the shaded area',()=>{
+ const env={window:{},devicePixelRatio:1};for(const f of['recovery-core.js','recovery-scene.js'])vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../assets/js',f),'utf8'),env);
+ const alphas=[];for(const light of[0,35,85,100]){const fills=[],ctx=new Proxy({fillStyle:'',fillRect(x,y,w,h){fills.push({color:this.fillStyle,x,y,w,h});}},{get:(o,k)=>k in o?o[k]:()=>{}}),canvas={clientWidth:960,width:960,height:560,getContext:()=>ctx},s=env.window.RecoveryGames.initial('soothe');s.light=light;env.window.RecoveryScene.draw(canvas,s);const shade=fills.at(-1);assert.deepEqual([shade.x,shade.y,shade.w,shade.h],[0,110,610,450]);alphas.push(Number(shade.color.match(/,([^,]+)\)$/)[1]));}for(let i=1;i<alphas.length;i++)assert.ok(alphas[i]<alphas[i-1]);assert.equal(alphas.at(-1),0);assert.ok(alphas[0]<=.35,'dim room stays readable');
+});

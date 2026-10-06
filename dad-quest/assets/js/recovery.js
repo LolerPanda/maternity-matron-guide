@@ -77,7 +77,7 @@ function render(){
  if(id!=='soothe')$('objective').textContent=({shifts:'安排会变化，交接要到位',visitors:'用具体边界保护休息',signal:'联络不断，现场有人接手',network:'让愿意帮忙的人真正接得住'})[id];
  const sp=speech();if($('speech').textContent!==sp)$('speech').textContent=sp;const feedback=s.message||'可以慢慢调整。任务不会因为操作慢造成健康后果。';if($('feedback').textContent!==feedback)$('feedback').textContent=feedback;
  $('journal').innerHTML=s.events.slice(-7).map(e=>'<li>'+eventText(e)+'</li>').join('')||'<li>先走进这一幕。每次协作都会留下记录。</li>';
- if($('light-level'))$('light-level').textContent=s.light+'%';
+ if($('light-level')&&$('light-level').textContent!==s.light+'%')$('light-level').textContent=s.light+'%';
  if($('steady'))$('steady').classList.toggle('holding',s.holding);if($('steady-progress'))$('steady-progress').value=s.steady;if($('talk-progress'))$('talk-progress').value=s.talk;if($('voice-progress'))$('voice-progress').value=s.voice;
 }
 const point=e=>{const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*960/r.width,y:(e.clientY-r.top)*560/r.height};};

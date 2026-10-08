@@ -16,3 +16,7 @@ test('leaving and closed door alone do not complete chapter: check current needs
 test('corrupt save rejected and restore clears unfinished input without removing story',()=>{let s=setup();s.path=[{x:825,y:385}];s.panel='grandma';const n=G.restore(s);assert.equal(n.guest.mode,'follow');assert.equal(n.path.length,0);assert.equal(n.panel,null);s.player.x=480;s.player.y=250;assert.equal(G.restore(s).consent,false);s=G.initial();s.choice=1;s.panel='consent';assert.equal(G.valid(s),false);});
 
 test('one destination click can lead the visitor to the sofa without deadlock',()=>{let s=setup();s=walk(s,'sofa');for(let i=0;i<40;i++)s=G.tick(s,.1);s=G.act(s,'interact');assert.equal(s.seated,true);});
+
+test('seating does not teleport the visitor onto dad even when he stands by a cushion',()=>{for(const x of [655,680,710,720,735]){let s=setup();s.player={x,y:310,face:1,step:0};s.guest={x:750,y:365,face:-1,step:0,mode:'follow'};s=G.act(s,'interact');assert.equal(s.seated,true);assert.ok(Math.hypot(s.player.x-s.guest.x,s.player.y-s.guest.y)>=52);assert.equal(G.valid(s),true);}});
+
+test('restored older seated saves separate overlapping actors without wiping progress',()=>{let s=seat(setup());s.player={...s.player,x:s.guest.x,y:s.guest.y};const n=G.restore(s);assert.equal(n.seated,true);assert.ok(Math.hypot(n.player.x-n.guest.x,n.player.y-n.guest.y)>=52);assert.equal(n.events.length,s.events.length);});

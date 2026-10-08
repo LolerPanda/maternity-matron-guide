@@ -1,5 +1,7 @@
 # 围产家庭支持工具 / Maternity & New Parent Toolkit
 
+**来访章已重做为键盘迎送游戏**：[把好意安排在合适的位置](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/visitors.html)。亲自接物和带路，回应未预约的来访；拍照由本人确认，疲惫时重新约定并送客。不同合理安排都可以完成，不按拒绝人数或速度评分。[详细玩法](dad-quest/docs/VISITORS_GAME.md)。
+
 **轮班章已改为键盘行动游戏**：[把休息排进生活](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/shifts.html)。方向键 / WASD 移动，E / 空格近身互动；家具碰撞、携物减速、当面接班、休息环境准备、非紧急来电协调和休息后交接组成连续流程。[详细玩法](dad-quest/docs/SHIFT_GAME.md)。
 
 **后五章已重制为场景游戏**：家庭行动与轮班、空间声源与安全暂停、多人门口协调、持续通讯与现场引导、会变化的支持网络。角色会实际移动，帮手会回复、晚到或临时缺席，每章有独立续存与章节导航。[五章玩法说明](dad-quest/docs/RECOVERY_GAMES.md)。
@@ -84,6 +86,8 @@ maternity-matron-guide/
 │   ├── series.html                 # 十一章中文成长地图
 │   ├── adventure.html              # 八款新互动章节
 │   ├── docs/SERIES_PLAN.md          # 场景规划与玩法分工
+│   ├── visitors.html               # 键盘迎送与意愿变化
+│   ├── docs/VISITORS_GAME.md        # 来访与意愿变化玩法
 │   ├── shifts.html                # 键盘行动轮班章
 │   ├── docs/SHIFT_GAME.md         # 轮班行动与续存说明
 │   ├── recovery.html              # 后五章场景重制入口
@@ -102,6 +106,9 @@ maternity-matron-guide/
 │   │       ├── series-core.js      # 规则与存储
 │   │       ├── series-hub.js       # 地图与进度
 │   │       ├── episodes.js         # 八种新玩法
+│   │       ├── visitors-core.js    # 来访规则、跟随带路与存档
+│   │       ├── visitors-scene.js   # 家庭来访场景
+│   │       ├── visitors.js         # 键盘、触控与现场沟通
 │   │       ├── shifts-core.js      # 房间碰撞与连续轮班规则
 │   │       ├── shifts-scene.js     # 家具、角色与携物动画
 │   │       ├── shifts.js           # 键盘、触控与界面

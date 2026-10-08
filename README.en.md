@@ -1,5 +1,7 @@
 > New: [Dad Apprentice — 10 Chinese interactive chapters](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/series.html). The collection adds packing, routing, handoff records, shift planning, environment adjustment, visitor routing, urgent communication and support allocation to the existing labor and night simulations. New chapters autosave locally and can be played in any order. The English edition remains the original knowledge practice; these action chapters are currently Chinese only.
 
+The Chinese urgent-call chapter now has a keyboard-controlled room scene: start the call immediately, connect speakerphone power, physically park the hallway cart, hand over baby care, and relay her updated description before returning to her side. [Play the chapter](dad-quest/signal.html). [Gameplay and sources](dad-quest/docs/SIGNAL_GAME.md).
+
 # Maternity & New Parent Toolkit
 
 **New Chinese episode: [Dad as a Birth Partner](https://lolerpanda.github.io/maternity-matron-guide/dad-quest/labor.html).** A separate playable hospital chapter with object delivery, a timing challenge, family coordination and communication with the care team. [Chinese guide](dad-quest/LABOR.md).

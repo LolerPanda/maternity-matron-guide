@@ -9,7 +9,7 @@ window.DAD_CHAPTERS = [
 {id:'shifts',stage:'产后第一周',name:'把休息排进生活',subtitle:'家庭行动与轮班',href:'shifts.html',icon:'▥',minutes:'3–5',color:'#b9cbd8',desc:'亲自走动、查阅、搬运和交接；队友到位后，在非紧急来电中守住休息。',mechanic:'键盘移动 · 近身互动 · 连续接班',lesson:'这是成人分工表，不是给新生儿规定喂养和睡眠时刻。'},
 {id:'soothe',stage:'新生儿日常',name:'哭声里的暂停键',subtitle:'空间与情绪互动',href:'recovery.html?chapter=soothe',icon:'◌',minutes:'3–5',color:'#dfc7ac',desc:'把额外声源移远，安全安置宝宝，再给自己暂停并完成真实接班。',mechanic:'空间声源 · 安全暂停 · 接班',lesson:'哭泣不总能立刻停止。感到失控时确保宝宝安全，寻求支援，绝不摇晃。'},
 {id:'visitors',stage:'亲友与边界',name:'把好意安排在合适的位置',subtitle:'家庭来访与变化',href:'visitors.html',icon:'⇆',minutes:'3–5',color:'#d4c3bd',desc:'亲自接物、迎接带路、协调临时来访；在拍照和送客时尊重她变化的意愿。',mechanic:'键盘迎送 · 跟随带路 · 意愿变化',lesson:'用具体安排协调亲友，保留休息空间和就医联络。'},
-{id:'signal',stage:'异常与求助',name:'接通那通重要的电话',subtitle:'通讯与现场协作',href:'recovery.html?chapter=signal',icon:'✚',minutes:'3–5',color:'#d9b7ac',desc:'保持模拟联络，传递已知情况，留出通道并引导支援人员到家门。',mechanic:'持续通讯 · 路线引导 · 交接',lesson:'警示信号需要及时求医；记录资料不能成为延误求助的理由。'},
+{id:'signal',stage:'异常与求助',name:'接通那通重要的电话',subtitle:'电话与现场行动',href:'signal.html',icon:'✚',minutes:'3–5',color:'#d9b7ac',desc:'先接通免提求助，接电、推动玄关推车、协调照护；她补充新情况时回到身旁，更新联络。',mechanic:'键盘现场 · 推车停放 · 变化回应',lesson:'警示信号需要及时求医；记录资料不能成为延误求助的理由。'},
 {id:'network',stage:'持续恢复',name:'我们需要的不止两双手',subtitle:'动态支持网络',href:'recovery.html?chapter=network',icon:'✧',minutes:'3–5',color:'#bdc8aa',desc:'等待回复、确认范围，让支持抵达；有人临时无法到场时重新分工。',mechanic:'请求协商 · 专长容量 · 动态改派',lesson:'恢复、喂养困难和情绪困扰都可以寻求适合的支持。'}
 ];
 window.DAD_REFERENCES = [

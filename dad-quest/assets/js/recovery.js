@@ -3,6 +3,7 @@ const R=window.RecoveryGames,$=id=>document.getElementById(id),id=new URLSearchP
 if(!R.ids.includes(id)){location.replace('series.html');return;}
 if(id==='shifts'&&!new URLSearchParams(location.search).has('legacy')){location.replace('shifts.html');return;}
 if(id==='visitors'&&!new URLSearchParams(location.search).has('legacy')){location.replace('visitors.html');return;}
+if(id==='signal'&&!new URLSearchParams(location.search).has('legacy')){location.replace('signal.html');return;}
 const key='dad-recovery-v2-'+id;let s=R.initial(id),paused=true,last=0,saveClock=0,signature='',drag=null,actor='dad',person='dad',selectedSource='tv',musicOn=true,finished=false;
 try{s=R.restore(JSON.parse(localStorage.getItem(key)),id);}catch{}
 const music=new NightMusic();music.setEnabled(true);

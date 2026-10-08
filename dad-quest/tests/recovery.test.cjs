@@ -42,7 +42,7 @@ test('new saves are isolated, resume transient controls safely and reject corrup
  const x=G.initial('signal');assert.equal(G.valid({...x,crew:59},'signal'),false);const n=G.initial('network');assert.equal(G.valid({...n,contracts:{food:null}},'network'),false);const p=G.initial('soothe');assert.equal(G.valid({...p,phase:3,baby:'arms'},'soothe'),false);
 });
 test('new public entry points, old URL redirects and completion exits exist for all five games',()=>{
- const root=path.resolve(__dirname,'..'),env={window:{}};vm.runInNewContext(fs.readFileSync(path.join(root,'assets/js/series-data.js'),'utf8'),env);for(const id of ['shifts','soothe','visitors','signal','network'])assert.equal(env.window.DAD_CHAPTERS.find(c=>c.id===id).href,['shifts','visitors'].includes(id)?id+'.html':'recovery.html?chapter='+id);
+ const root=path.resolve(__dirname,'..'),env={window:{}};vm.runInNewContext(fs.readFileSync(path.join(root,'assets/js/series-data.js'),'utf8'),env);for(const id of ['shifts','soothe','visitors','signal','network'])assert.equal(env.window.DAD_CHAPTERS.find(c=>c.id===id).href,['shifts','visitors','signal'].includes(id)?id+'.html':'recovery.html?chapter='+id);
  const html=fs.readFileSync(path.join(root,'recovery.html'),'utf8');for(const m of html.matchAll(/(?:src|href)="([^"#]+)"/g))if(!m[1].startsWith('http'))assert.ok(fs.existsSync(path.join(root,m[1].split('?')[0])),m[1]);
  assert.match(fs.readFileSync(path.join(root,'assets/js/episodes.js'),'utf8'),/location.replace\('recovery.html\?chapter='\+id\)/);
 });

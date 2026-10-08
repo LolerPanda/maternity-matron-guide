@@ -14,6 +14,6 @@
 
 这些人物、时间和安排均为虚构。不评分父母，不按拒绝人数或速度评判表现，没有健康倒计时，不拨打真实电话。真实家庭以本人当下意愿为准。
 
-新版存档使用 `dad-visitors-room-v1`。旧来访存档 `dad-recovery-v2-visitors` 与成长地图徽章保留。旧 `recovery.html?chapter=visitors` 自动进入新版；加 `&legacy=1` 可访问旧场景。
+新版存档使用 `dad-visitors-room-v1`。旧来访存档 `dad-recovery-v2-visitors` 与成长地图徽章保留。新版会修复已存档的角色重叠位置，保留剧情进度，无需重新开始。旧 `recovery.html?chapter=visitors` 自动进入新版；加 `&legacy=1` 可访问旧场景。
 
 实现：`visitors.html`、`assets/js/visitors-core.js`（规则、碰撞与跟随）、`visitors-scene.js`（场景绘制）、`visitors.js`（输入、沟通、存档与导航）。界面复用 `recovery.css` 与 `shifts.css`。
